@@ -1,16 +1,16 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, cubicBezier, Variants } from "framer-motion";
 import { useState } from "react";
 
-const fadeUp = {
+const fadeUp: Variants = {
   hidden: { opacity: 0, y: 26 },
-  visible: (i = 0) => ({
+  visible: (i: number = 0) => ({
     opacity: 1,
     y: 0,
     transition: {
       duration: 0.7,
-      ease: [0.22, 1, 0.36, 1],
+      ease: cubicBezier(0.22, 1, 0.36, 1),
       delay: i * 0.12,
     },
   }),
@@ -27,10 +27,7 @@ export default function RegistrationSection() {
   });
 
   return (
-    <section
-      className="relative py-24 px-6 bg-[#080808] overflow-hidden"
-      aria-label="Athlete Registration"
-    >
+    <section className="relative py-24 px-6 bg-[#080808] overflow-hidden">
       {/* Background glow */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute -top-40 left-1/3 w-[600px] h-[600px] bg-cyan-400/10 blur-3xl rounded-full" />
@@ -38,7 +35,7 @@ export default function RegistrationSection() {
       </div>
 
       <div className="relative max-w-6xl mx-auto grid lg:grid-cols-2 gap-10">
-        {/* LEFT: Info */}
+        {/* LEFT */}
         <motion.div
           variants={fadeUp}
           initial="hidden"
@@ -58,8 +55,8 @@ export default function RegistrationSection() {
 
             <p className="text-white/60 leading-relaxed">
               Submit your athlete information to begin the evaluation process.
-              All athletes are reviewed for placement based on performance
-              level, commitment, and event fit.
+              All athletes are reviewed based on performance level and
+              commitment.
             </p>
           </div>
 
@@ -69,16 +66,16 @@ export default function RegistrationSection() {
             </h3>
 
             <ul className="space-y-3 text-white/60 text-sm">
-              <li>• Open evaluations held monthly</li>
-              <li>• Sprint & middle distance testing included</li>
-              <li>• Performance + movement assessment</li>
-              <li>• Placement based on development level</li>
-              <li>• Limited athlete intake per cycle</li>
+              <li>• Monthly evaluations</li>
+              <li>• Sprint & endurance testing</li>
+              <li>• Movement assessment</li>
+              <li>• Development-based placement</li>
+              <li>• Limited intake per cycle</li>
             </ul>
           </div>
         </motion.div>
 
-        {/* RIGHT: Form */}
+        {/* RIGHT */}
         <motion.div
           variants={fadeUp}
           initial="hidden"
@@ -115,7 +112,7 @@ export default function RegistrationSection() {
 
               <input
                 type="text"
-                placeholder="Primary Event (100m, 200m...)"
+                placeholder="Primary Event"
                 value={form.event}
                 onChange={(e) => setForm({ ...form, event: e.target.value })}
                 className="px-4 py-3 rounded-xl bg-black/40 border border-white/10 text-white placeholder:text-white/30 outline-none focus:border-cyan-400/40"
@@ -139,7 +136,7 @@ export default function RegistrationSection() {
             />
 
             <textarea
-              placeholder="Athletic Experience / Background"
+              placeholder="Athletic Experience"
               value={form.experience}
               onChange={(e) => setForm({ ...form, experience: e.target.value })}
               rows={4}
@@ -150,12 +147,7 @@ export default function RegistrationSection() {
               type="submit"
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.97 }}
-              className="
-                w-full py-3.5 rounded-full
-                bg-gradient-to-r from-cyan-400 to-pink-400
-                text-black font-black text-sm
-                shadow-[0_0_30px_rgba(34,211,238,0.25)]
-              "
+              className="w-full py-3.5 rounded-full bg-gradient-to-r from-cyan-400 to-pink-400 text-black font-black text-sm"
             >
               Submit Registration
             </motion.button>

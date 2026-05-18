@@ -1,16 +1,16 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, Variants } from "framer-motion";
 import Image from "next/image";
 
-const fadeUp = {
+const fadeUp: Variants = {
   hidden: { opacity: 0, y: 26 },
-  visible: (i = 0) => ({
+  visible: (i: number = 0) => ({
     opacity: 1,
     y: 0,
     transition: {
       duration: 0.7,
-      ease: [0.22, 1, 0.36, 1],
+      ease: [0.22, 1, 0.36, 1] as const,
       delay: i * 0.12,
     },
   }),
@@ -59,7 +59,7 @@ export default function UpcomingMeetsSection() {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.4 }}
-          custom={0}
+          custom={0 as number}
           className="text-center mb-12"
         >
           <h2 className="text-cyan-400 text-xs tracking-[0.25em] uppercase font-semibold mb-4">
@@ -85,7 +85,7 @@ export default function UpcomingMeetsSection() {
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true, amount: 0.4 }}
-              custom={i}
+              custom={i as number}
               className="group relative rounded-2xl overflow-hidden border border-white/10 bg-white/[0.03] backdrop-blur-xl"
             >
               {/* Image */}
@@ -124,7 +124,7 @@ export default function UpcomingMeetsSection() {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.4 }}
-          custom={3}
+          custom={3 as number}
           className="text-center mt-12"
         >
           <p className="text-white/50 text-sm">

@@ -1,16 +1,16 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, cubicBezier, Variants } from "framer-motion";
 import Image from "next/image";
 
-const fadeUp = {
+const fadeUp: Variants = {
   hidden: { opacity: 0, y: 26 },
-  visible: (i = 0) => ({
+  visible: (i: number = 0) => ({
     opacity: 1,
     y: 0,
     transition: {
       duration: 0.7,
-      ease: [0.22, 1, 0.36, 1],
+      ease: cubicBezier(0.22, 1, 0.36, 1),
       delay: i * 0.12,
     },
   }),
@@ -63,10 +63,7 @@ const POSTS = [
 
 export default function SocialFeedSection() {
   return (
-    <section
-      className="relative py-24 px-6 bg-[#080808] overflow-hidden"
-      aria-label="Social Media Feed"
-    >
+    <section className="relative py-24 px-6 bg-[#080808] overflow-hidden">
       {/* Background glow */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute -top-40 left-1/4 w-[600px] h-[600px] bg-cyan-400/10 blur-3xl rounded-full" />
@@ -95,15 +92,6 @@ export default function SocialFeedSection() {
             Real-time updates from our athletes, training sessions, and
             competition days.
           </p>
-
-          <a
-            href="https://instagram.com"
-            target="_blank"
-            rel="noreferrer"
-            className="inline-flex mt-6 text-cyan-400 text-sm font-semibold hover:text-white transition-colors"
-          >
-            Follow on Instagram →
-          </a>
         </motion.div>
 
         {/* Grid */}
@@ -128,24 +116,20 @@ export default function SocialFeedSection() {
                   className="object-cover group-hover:scale-105 transition-transform duration-500"
                 />
 
-                {/* Overlay */}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
               </div>
 
               {/* Content */}
               <div className="p-4">
-                <div className="flex items-center justify-between mb-2">
-                  <span className="text-[10px] uppercase tracking-[0.2em] text-cyan-400 font-semibold">
-                    {post.type}
-                  </span>
-                </div>
+                <span className="text-[10px] uppercase tracking-[0.2em] text-cyan-400 font-semibold">
+                  {post.type}
+                </span>
 
-                <p className="text-white/70 text-sm leading-snug">
+                <p className="text-white/70 text-sm leading-snug mt-2">
                   {post.caption}
                 </p>
               </div>
 
-              {/* Hover glow */}
               <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity bg-cyan-400/5" />
             </motion.a>
           ))}
@@ -164,13 +148,7 @@ export default function SocialFeedSection() {
             href="https://instagram.com"
             target="_blank"
             rel="noreferrer"
-            className="
-              inline-flex items-center gap-2
-              px-8 py-3.5 rounded-full
-              bg-gradient-to-r from-cyan-400 to-pink-400
-              text-black font-black text-sm
-              shadow-[0_0_30px_rgba(34,211,238,0.25)]
-            "
+            className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full bg-gradient-to-r from-cyan-400 to-pink-400 text-black font-black text-sm"
           >
             View More Content
             <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
