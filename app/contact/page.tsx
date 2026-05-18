@@ -137,13 +137,13 @@ export default function ContactPage() {
               </h2>
 
               <div className="space-y-3 text-white/70 text-sm">
-                <p>📧 support@a1vertex.com</p>
-                <p>📞 +1 (876) 000-0000</p>
-                <p>📍 Spanish Town, Jamaica</p>
+                <p>📧 contact@a1vertexathletics.com</p>
+                <p>📞 +1 (754) 213-3650</p>
+                <p>📍 9170 Glades Road, STE 121 , Boca Raton, Florida 33434</p>
               </div>
 
               <a
-                href="https://instagram.com"
+                href="https://www.instagram.com/a1eliteyouthathletics?igsh=ZWg1b3U5Y2RzOXFk"
                 target="_blank"
                 className="inline-block mt-6 text-pink-400 hover:text-white transition"
               >
@@ -160,7 +160,7 @@ export default function ContactPage() {
             >
               <iframe
                 title="Training Location"
-                src="https://www.google.com/maps?q=Spanish%20Town%20Jamaica&output=embed"
+                src="https://www.google.com/maps?q=9170+Glades+Road%2C+STE+121%2C+Boca+Raton%2C+Florida+33434&output=embed"
                 className="w-full h-64"
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"

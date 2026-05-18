@@ -19,37 +19,37 @@ const fadeUp: Variants = {
 const POSTS = [
   {
     id: 1,
-    image: "/images/social/post-1.jpg",
+    image: "/images/gallery/training-1.jpeg",
     caption: "Speed work in South Florida heat 🔥",
     type: "Reel",
   },
   {
     id: 2,
-    image: "/images/social/post-2.jpg",
+    image: "/images/gallery/training-2.jpeg",
     caption: "Acceleration drills with the squad",
     type: "Post",
   },
   {
     id: 3,
-    image: "/images/social/post-3.jpg",
+    image: "/images/gallery/training-3.jpeg",
     caption: "Championship mindset only.",
     type: "Reel",
   },
   {
     id: 4,
-    image: "/images/social/post-4.jpg",
+    image: "/images/gallery/training-4.jpeg",
     caption: "Race day execution done right.",
     type: "Post",
   },
   {
     id: 5,
-    image: "/images/social/post-5.jpg",
+    image: "/images/gallery/training-5.jpeg",
     caption: "Strength block in progress.",
     type: "Reel",
   },
   {
     id: 6,
-    image: "/images/social/post-6.jpg",
+    image: "/images/gallery/training-6.jpeg",
     caption: "A1 Vertex culture in motion.",
     type: "Post",
   },

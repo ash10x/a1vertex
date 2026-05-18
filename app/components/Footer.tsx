@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { cubicBezier } from "framer-motion";
+import Image from "next/image";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 20 },
@@ -36,9 +37,12 @@ export default function Footer() {
           viewport={{ once: true, amount: 0.4 }}
           transition={{ delay: 0 * 0.08 }}
         >
-          <h2 className="text-xl font-black tracking-tight">
-            A1 <span className="text-cyan-400">Vertex</span>
-          </h2>
+          <Image
+            src="/logo/logo.png"
+            alt="A1 Vertex Athletics"
+            width={120}
+            height={40}
+          />
 
           <p className="text-white/60 text-sm mt-4 leading-relaxed">
             Elite track & field development built on structure, discipline, and
@@ -63,14 +67,14 @@ export default function Footer() {
           </h3>
 
           <ul className="space-y-3 text-sm text-white/60">
-            <li>Spanish Town, Jamaica</li>
-            <li>+1 (876) 000-0000</li>
+            <li>9170 Glades Road, STE 121 , Boca Raton, Florida 33434</li>
+            <li>+1 (754) 213-3650</li>
             <li>
               <a
-                href="mailto:info@a1vertex.com"
+                href="mailto:contact@a1vertexathletics.com"
                 className="hover:text-white transition-colors"
               >
-                info@a1vertex.com
+                contact@a1vertexathletics.com
               </a>
             </li>
           </ul>
@@ -90,23 +94,11 @@ export default function Footer() {
 
           <ul className="space-y-3 text-sm text-white/60">
             <li>
-              <a className="hover:text-white" href="#">
+              <a
+                className="hover:text-white"
+                href="https://www.instagram.com/a1eliteyouthathletics?igsh=ZWg1b3U5Y2RzOXFk"
+              >
                 Instagram
-              </a>
-            </li>
-            <li>
-              <a className="hover:text-white" href="#">
-                TikTok
-              </a>
-            </li>
-            <li>
-              <a className="hover:text-white" href="#">
-                YouTube
-              </a>
-            </li>
-            <li>
-              <a className="hover:text-white" href="#">
-                Twitter / X
               </a>
             </li>
           </ul>

@@ -35,7 +35,7 @@ const MEETS = [
     title: "South Florida Invitational",
     type: "Local Invitational",
     date: "June 2026",
-    image: "/images/meets/local-invite.jpg",
+    image: "/images/meets/local-invite.webp",
     location: "Miami, FL",
   },
 ];

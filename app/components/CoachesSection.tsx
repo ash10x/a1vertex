@@ -27,22 +27,13 @@ const fadeUp: Variants = {
 
 const COACHES = [
   {
-    name: "Coach Daniels",
-    title: "Head Sprint Coach",
-    image: "/images/coaches/coach-1.jpg",
-    bio: "Elite sprint mechanics, acceleration development, and race execution strategy.",
-  },
-  {
     name: "Coach Rivera",
-    title: "Strength & Conditioning Coach",
-    image: "/images/coaches/coach-2.jpg",
-    bio: "Explosive power, injury prevention, and athletic durability systems.",
-  },
-  {
-    name: "Coach Thompson",
-    title: "Middle Distance Coach",
-    image: "/images/coaches/coach-3.jpg",
-    bio: "Endurance speed, pacing strategy, and tactical race intelligence.",
+    title: "Head Sprint Coach — A1 Vertex Athletics",
+    image: "/images/coaches/coachkai.jpeg",
+    bio: `International-level sprint coach and Three-Time Olympian
+    representing Trinidad & Tobago, bringing elite sprint systems,
+    discipline-based development, and world-class athlete experience
+    to A1 Vertex Athletics.`,
   },
 ];
 
