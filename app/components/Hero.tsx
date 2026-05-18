@@ -45,13 +45,15 @@ export default function CinematicAppleLanding() {
   return (
     <main ref={ref} className="relative bg-black text-white overflow-hidden">
       {/* ───────────────── GLOBAL CINEMATIC BACKGROUND VIDEO ───────────────── */}
-      <div className="fixed inset-0 z-0">
+      <div className="fixed inset-0 z-0 overflow-hidden">
         <video
           autoPlay
           muted
           loop
           playsInline
-          preload="auto"
+          preload="metadata"
+          poster="/images/video-poster.jpg"
+          webkit-playsinline="true"
           className="absolute inset-0 h-full w-full object-cover"
         >
           <source src="/video/main2.mp4" type="video/mp4" />
