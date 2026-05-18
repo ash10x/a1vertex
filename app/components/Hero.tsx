@@ -33,12 +33,16 @@ const fadeUp = {
 };
 
 // ── Animated counter ────────────────────────────────────────────────────────
-function Counter({ value }) {
+type CounterProps = {
+  value: string;
+};
+
+function Counter({ value }: CounterProps) {
   const num = parseInt(value.replace(/\D/g, ""));
   const suffix = value.replace(/[0-9]/g, "");
 
-  const [display, setDisplay] = useState(0);
-  const ref = useRef(null);
+  const [display, setDisplay] = useState<number>(0);
+  const ref = useRef<HTMLSpanElement | null>(null);
   const started = useRef(false);
 
   useEffect(() => {
@@ -50,7 +54,7 @@ function Counter({ value }) {
           const duration = 1400;
           const start = performance.now();
 
-          const tick = (now) => {
+          const tick = (now: number) => {
             const p = Math.min((now - start) / duration, 1);
             const eased = 1 - Math.pow(1 - p, 3);
 
@@ -66,6 +70,7 @@ function Counter({ value }) {
     );
 
     if (ref.current) observer.observe(ref.current);
+
     return () => observer.disconnect();
   }, [num]);
 
@@ -79,7 +84,7 @@ function Counter({ value }) {
 
 // ── Main component ───────────────────────────────────────────────────────────
 export default function Hero() {
-  const sectionRef = useRef(null);
+  const sectionRef = useRef<HTMLElement | null>(null);
   const prefersReducedMotion = useReducedMotion();
 
   const { scrollYProgress } = useScroll({
@@ -154,10 +159,7 @@ export default function Hero() {
           animate={
             prefersReducedMotion
               ? {}
-              : {
-                  opacity: [0.12, 0.28, 0.12],
-                  scale: [1, 1.18, 1],
-                }
+              : { opacity: [0.12, 0.28, 0.12], scale: [1, 1.18, 1] }
           }
           transition={
             prefersReducedMotion
@@ -175,20 +177,12 @@ export default function Hero() {
           animate={
             prefersReducedMotion
               ? {}
-              : {
-                  opacity: [0.08, 0.2, 0.08],
-                  scale: [1, 1.12, 1],
-                }
+              : { opacity: [0.08, 0.2, 0.08], scale: [1, 1.12, 1] }
           }
           transition={
             prefersReducedMotion
               ? undefined
-              : {
-                  duration: 11,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                  delay: 2,
-                }
+              : { duration: 11, repeat: Infinity, ease: "easeInOut", delay: 2 }
           }
           className="absolute -bottom-40 -left-40 w-[560px] h-[560px] rounded-full"
           style={{
@@ -202,12 +196,7 @@ export default function Hero() {
           transition={
             prefersReducedMotion
               ? undefined
-              : {
-                  duration: 7,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                  delay: 1,
-                }
+              : { duration: 7, repeat: Infinity, ease: "easeInOut", delay: 1 }
           }
           className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[300px] rounded-full"
           style={{
@@ -258,10 +247,7 @@ export default function Hero() {
               animate={
                 prefersReducedMotion
                   ? {}
-                  : {
-                      opacity: [0.35, 0.7, 0.35],
-                      scale: [1, 1.08, 1],
-                    }
+                  : { opacity: [0.35, 0.7, 0.35], scale: [1, 1.08, 1] }
               }
               transition={
                 prefersReducedMotion
@@ -288,8 +274,6 @@ export default function Hero() {
             className="leading-[0.9] tracking-tight font-black uppercase text-center"
             style={{ fontFamily: "'Barlow Condensed', sans-serif" }}
           >
-            <style>{`@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@800;900&display=swap');`}</style>
-
             <span className="block text-[clamp(4rem,12vw,9rem)] text-white">
               A1 Vertex
             </span>
