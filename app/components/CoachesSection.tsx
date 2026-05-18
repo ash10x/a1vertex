@@ -2,18 +2,18 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
+import { cubicBezier } from "framer-motion";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 26 },
-  visible: (i = 0) => ({
+  visible: {
     opacity: 1,
     y: 0,
     transition: {
       duration: 0.7,
-      ease: [0.22, 1, 0.36, 1],
-      delay: i * 0.12,
+      ease: cubicBezier(0.22, 1, 0.36, 1),
     },
-  }),
+  },
 };
 
 const COACHES = [
@@ -56,7 +56,6 @@ export default function CoachesSection() {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.4 }}
-          custom={0}
           className="text-center mb-12"
         >
           <h2 className="text-cyan-400 text-xs tracking-[0.25em] uppercase font-semibold mb-4">
@@ -82,7 +81,7 @@ export default function CoachesSection() {
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true, amount: 0.4 }}
-              custom={i}
+              transition={{ delay: i * 0.12 }}
               className="group rounded-2xl overflow-hidden border border-white/10 bg-white/[0.03] backdrop-blur-xl"
             >
               {/* Image */}
@@ -119,21 +118,14 @@ export default function CoachesSection() {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.4 }}
-          custom={3}
+          transition={{ delay: 0.4 }}
           className="flex justify-center mt-12"
         >
           <motion.a
             href="/coaches"
             whileHover={{ scale: 1.04 }}
             whileTap={{ scale: 0.97 }}
-            className="
-              inline-flex items-center gap-2
-              px-8 py-3.5 rounded-full
-              bg-gradient-to-r from-cyan-400 to-pink-400
-              text-black font-black text-sm
-              shadow-[0_0_30px_rgba(34,211,238,0.25)]
-              transition-all
-            "
+            className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full bg-gradient-to-r from-cyan-400 to-pink-400 text-black font-black text-sm shadow-[0_0_30px_rgba(34,211,238,0.25)]"
           >
             View Full Coaching Staff
             <svg
