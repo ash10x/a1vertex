@@ -9,7 +9,7 @@ const fadeUp = {
     y: 0,
     transition: {
       duration: 0.7,
-      ease: [0.22, 1, 0.36, 1],
+      ease: [0.22, 1, 0.36, 1] as const,
       delay: i * 0.1,
     },
   }),
@@ -60,7 +60,7 @@ const WEEKLY_SCHEDULE = [
     day: "Saturday",
     focus: "Specialized Sessions",
     time: "Morning Session",
-    location: "Varies (Announced Weekly)",
+    location: "Varies Weekly",
     group: "Selected Athletes",
     type: "Special Session",
   },
@@ -103,13 +103,12 @@ export default function TrainingPage() {
           </h1>
 
           <p className="text-white/60 mt-6 max-w-2xl mx-auto">
-            Parents and athletes can view the full weekly training structure,
-            including sessions, locations, and event group assignments.
+            Full weekly structure for athletes, parents, and coaches.
           </p>
         </motion.div>
       </section>
 
-      {/* QUICK INFO */}
+      {/* INFO CARDS */}
       <section className="px-6 pb-12">
         <div className="max-w-6xl mx-auto grid md:grid-cols-3 gap-4">
           {[
@@ -123,14 +122,15 @@ export default function TrainingPage() {
             },
             {
               title: "Special Sessions",
-              desc: "Invite-only technical and performance blocks",
+              desc: "Invite-only technical performance blocks",
             },
           ].map((item, i) => (
             <motion.div
               key={item.title}
               variants={fadeUp}
               initial="hidden"
-              animate="visible"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.3 }}
               custom={i}
               className="p-6 rounded-2xl border border-white/10 bg-white/[0.03]"
             >
@@ -149,7 +149,8 @@ export default function TrainingPage() {
               key={item.day}
               variants={fadeUp}
               initial="hidden"
-              animate="visible"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.2 }}
               custom={i}
               className="rounded-2xl border border-white/10 bg-white/[0.03] p-6 flex flex-col md:flex-row md:items-center justify-between gap-4"
             >
@@ -180,13 +181,13 @@ export default function TrainingPage() {
         </div>
       </section>
 
-      {/* GOOGLE CALENDAR INTEGRATION */}
+      {/* CALENDAR */}
       <section className="px-6 pb-28">
         <motion.div
           variants={fadeUp}
           initial="hidden"
-          animate="visible"
-          custom={0}
+          whileInView="visible"
+          viewport={{ once: true }}
           className="max-w-6xl mx-auto p-8 rounded-2xl border border-white/10 bg-white/[0.03] text-center"
         >
           <h2 className="text-cyan-400 text-xs uppercase tracking-[0.25em] font-semibold mb-4">
@@ -198,25 +199,15 @@ export default function TrainingPage() {
           </h3>
 
           <p className="text-white/60 max-w-2xl mx-auto mb-6">
-            Sync training sessions directly to your Google Calendar so athletes
-            and parents never miss updates or schedule changes.
+            Sync training sessions to your calendar (integration placeholder).
           </p>
 
-          <a
-            href="#"
+          <button
             className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full bg-gradient-to-r from-cyan-400 to-pink-400 text-black font-black text-sm"
+            type="button"
           >
-            Add to Google Calendar
-            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-              <path
-                d="M2 7H12M8 3L12 7L8 11"
-                stroke="currentColor"
-                strokeWidth="1.8"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </a>
+            Add to Calendar
+          </button>
         </motion.div>
       </section>
     </main>
