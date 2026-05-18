@@ -143,7 +143,7 @@ export default function SocialFeedSection() {
           className="text-center mt-14"
         >
           <a
-            href="https://instagram.com"
+            href="https://www.instagram.com/a1eliteyouthathletics?igsh=ZWg1b3U5Y2RzOXFk"
             target="_blank"
             rel="noreferrer"
             className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full bg-gradient-to-r from-cyan-400 to-pink-400 text-black font-black text-sm shadow-[0_0_30px_rgba(34,211,238,0.2)]"
