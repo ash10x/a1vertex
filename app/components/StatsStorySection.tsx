@@ -41,17 +41,17 @@ const EVENTS = [
   },
   {
     title: "200m",
-    image: "/images/events/200m.jpg",
+    image: "/images/events/200m.webp",
     desc: "Speed endurance and curve mechanics.",
   },
   {
     title: "400m",
-    image: "/images/events/400m.jpg",
+    image: "/images/events/400m.webp",
     desc: "Lactic tolerance and race strategy.",
   },
   {
     title: "800m",
-    image: "/images/events/800m.jpg",
+    image: "/images/events/800m.webp",
     desc: "Endurance speed and tactical racing.",
   },
 ];
