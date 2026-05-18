@@ -51,7 +51,8 @@ export default function CinematicAppleLanding() {
           muted
           loop
           playsInline
-          className="absolute inset-0 w-full h-full object-cover scale-[1.05] opacity-50"
+          preload="auto"
+          className="absolute inset-0 h-full w-full object-cover"
         >
           <source src="/video/main2.mp4" type="video/mp4" />
         </video>

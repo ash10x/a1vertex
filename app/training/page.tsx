@@ -124,9 +124,10 @@ export default function TrainingPage() {
             muted
             loop
             playsInline
-            className="absolute inset-0 h-full w-full object-cover opacity-40"
+            preload="auto"
+            className="absolute inset-0 h-full w-full object-cover"
           >
-            <source src="/video/main4.mp4" type="video/mp4" />
+            <source src="/video/main5.mp4" type="video/mp4" />
           </video>
 
           <div className="absolute inset-0 bg-black/70" />

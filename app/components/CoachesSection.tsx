@@ -67,7 +67,8 @@ export default function CoachesSection() {
             muted
             loop
             playsInline
-            className="w-full h-full object-cover opacity-20 scale-[1.05]"
+            preload="auto"
+            className="absolute inset-0 h-full w-full object-cover"
           >
             <source src="/video/main3.mp4" type="video/mp4" />
           </video>
