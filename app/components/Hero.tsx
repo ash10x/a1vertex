@@ -16,16 +16,16 @@ const sections = [
     desc: "Structured athlete development built on performance data, discipline, and progression science.",
     accent: "from-cyan-400 to-blue-500",
   },
-  {
-    title: "Data-Driven Performance",
-    desc: "Every sprint, rep, and session is measured for measurable gains.",
-    accent: "from-pink-400 to-purple-500",
-  },
-  {
-    title: "Championship Mindset",
-    desc: "Mental conditioning for high-pressure execution and race dominance.",
-    accent: "from-yellow-300 to-orange-400",
-  },
+  // {
+  //   title: "Data-Driven Performance",
+  //   desc: "Every sprint, rep, and session is measured for measurable gains.",
+  //   accent: "from-pink-400 to-purple-500",
+  // },
+  // {
+  //   title: "Championship Mindset",
+  //   desc: "Mental conditioning for high-pressure execution and race dominance.",
+  //   accent: "from-yellow-300 to-orange-400",
+  // },
 ];
 
 export default function CinematicAppleLanding() {
@@ -155,11 +155,11 @@ export default function CinematicAppleLanding() {
                 style={{ opacity, y, scale }}
                 className="relative z-10 text-center max-w-3xl px-6"
               >
-                <div
+                {/* <div
                   className={`text-xs uppercase tracking-[0.3em] mb-6 bg-gradient-to-r ${s.accent} text-transparent bg-clip-text`}
                 >
                   Performance Layer {i + 1}
-                </div>
+                </div> */}
 
                 <h2 className="text-4xl md:text-6xl font-black leading-tight">
                   {s.title}
