@@ -27,7 +27,7 @@ const fadeUp: Variants = {
 
 const COACHES = [
   {
-    name: "Coach Rivera",
+    name: "Coach Kai Selvon",
     title: "Head Sprint Coach — A1 Vertex Athletics",
     image: "/images/coaches/coachkai.jpeg",
     bio: `International-level sprint coach and Three-Time Olympian
