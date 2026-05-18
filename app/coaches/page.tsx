@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
+import { cubicBezier } from "framer-motion";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 28 },
@@ -10,7 +11,7 @@ const fadeUp = {
     y: 0,
     transition: {
       duration: 0.7,
-      ease: [0.22, 1, 0.36, 1],
+      ease: cubicBezier(0.22, 1, 0.36, 1),
       delay: i * 0.12,
     },
   }),
@@ -134,9 +135,7 @@ export default function CoachesPage() {
 
               {/* CONTENT */}
               <div className="p-6 space-y-3">
-                <div className="flex items-center justify-between">
-                  <h2 className="text-xl font-black">{coach.name}</h2>
-                </div>
+                <h2 className="text-xl font-black">{coach.name}</h2>
 
                 <p className="text-cyan-400 text-xs uppercase tracking-[0.2em] font-semibold">
                   {coach.role}
@@ -194,13 +193,7 @@ export default function CoachesPage() {
             href="/registration"
             whileHover={{ scale: 1.04 }}
             whileTap={{ scale: 0.97 }}
-            className="
-              inline-flex mt-8 items-center gap-2
-              px-8 py-3.5 rounded-full
-              bg-gradient-to-r from-cyan-400 to-pink-400
-              text-black font-black text-sm
-              shadow-[0_0_30px_rgba(34,211,238,0.25)]
-            "
+            className="inline-flex mt-8 items-center gap-2 px-8 py-3.5 rounded-full bg-gradient-to-r from-cyan-400 to-pink-400 text-black font-black text-sm shadow-[0_0_30px_rgba(34,211,238,0.25)]"
           >
             Get Started
             <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
