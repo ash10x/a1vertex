@@ -10,7 +10,7 @@ const fadeUp = {
     y: 0,
     transition: {
       duration: 0.7,
-      ease: [0.22, 1, 0.36, 1],
+      ease: [0.22, 1, 0.36, 1] as const,
       delay: i * 0.1,
     },
   }),
@@ -100,7 +100,7 @@ export default function TeamPage() {
           variants={fadeUp}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true }}
+          viewport={{ once: true, amount: 0.3 }}
           custom={0}
           className="max-w-6xl mx-auto rounded-2xl border border-white/10 bg-white/[0.03] p-8"
         >
@@ -127,20 +127,22 @@ export default function TeamPage() {
 
               <p className="text-white/60 text-sm leading-relaxed">
                 Featured athlete recognition for exceptional training
-                consistency, competition results, and performance breakthroughs
-                within the A1 Vertex system.
+                consistency, competition results, and performance breakthroughs.
               </p>
 
               <div className="mt-6 flex gap-3 flex-wrap">
-                <span className="px-4 py-1 rounded-full text-xs bg-white/10 text-white/70">
-                  Sprint Progression
-                </span>
-                <span className="px-4 py-1 rounded-full text-xs bg-white/10 text-white/70">
-                  Discipline Award
-                </span>
-                <span className="px-4 py-1 rounded-full text-xs bg-white/10 text-white/70">
-                  PR Breakthrough
-                </span>
+                {[
+                  "Sprint Progression",
+                  "Discipline Award",
+                  "PR Breakthrough",
+                ].map((tag) => (
+                  <span
+                    key={tag}
+                    className="px-4 py-1 rounded-full text-xs bg-white/10 text-white/70"
+                  >
+                    {tag}
+                  </span>
+                ))}
               </div>
             </div>
           </div>
@@ -155,16 +157,16 @@ export default function TeamPage() {
               key={athlete.name}
               variants={fadeUp}
               initial="hidden"
-              animate="visible"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.2 }}
               custom={i}
-              className="group rounded-2xl overflow-hidden border border-white/10 bg-white/[0.03] backdrop-blur-xl"
+              className="group rounded-2xl overflow-hidden border border-white/10 bg-white/[0.03]"
             >
               <div className="relative h-80 w-full overflow-hidden">
                 <Image
                   src={athlete.image}
                   alt={athlete.name}
                   fill
-                  loading="lazy"
                   className="object-cover group-hover:scale-105 transition-transform duration-500"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
