@@ -5,16 +5,18 @@ import Image from "next/image";
 import { cubicBezier } from "framer-motion";
 
 const fadeUp = {
-  hidden: { opacity: 0, y: 28 },
-  visible: (i = 0) => ({
+  hidden: {
+    opacity: 0,
+    y: 28,
+  },
+  visible: {
     opacity: 1,
     y: 0,
     transition: {
       duration: 0.7,
       ease: cubicBezier(0.22, 1, 0.36, 1),
-      delay: i * 0.12,
     },
-  }),
+  },
 };
 
 const COACHES = [
@@ -89,7 +91,6 @@ export default function CoachesPage() {
           variants={fadeUp}
           initial="hidden"
           animate="visible"
-          custom={0}
           className="relative max-w-4xl mx-auto"
         >
           <p className="text-cyan-400 text-xs tracking-[0.25em] uppercase font-semibold mb-4">
@@ -119,7 +120,7 @@ export default function CoachesPage() {
               variants={fadeUp}
               initial="hidden"
               animate="visible"
-              custom={i}
+              transition={{ delay: i * 0.12 }}
               className="group relative rounded-2xl overflow-hidden border border-white/10 bg-white/[0.03] backdrop-blur-xl"
             >
               {/* IMAGE */}
@@ -177,7 +178,6 @@ export default function CoachesPage() {
           variants={fadeUp}
           initial="hidden"
           animate="visible"
-          custom={0}
           className="max-w-3xl mx-auto"
         >
           <h2 className="text-3xl md:text-4xl font-black">
