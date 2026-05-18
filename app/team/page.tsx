@@ -94,7 +94,7 @@ export default function TeamPage() {
         </motion.div>
       </section>
 
-      {/* ATHLETE SPOTLIGHT */}
+      {/* SPOTLIGHT */}
       <section className="px-6 pb-16">
         <motion.div
           variants={fadeUp}
@@ -114,6 +114,7 @@ export default function TeamPage() {
                 src="/images/athletes/spotlight.jpg"
                 alt="Athlete Spotlight"
                 fill
+                priority
                 className="object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
@@ -123,6 +124,7 @@ export default function TeamPage() {
               <h3 className="text-2xl font-black mb-2">
                 Performance Highlight of the Month
               </h3>
+
               <p className="text-white/60 text-sm leading-relaxed">
                 Featured athlete recognition for exceptional training
                 consistency, competition results, and performance breakthroughs
@@ -145,7 +147,7 @@ export default function TeamPage() {
         </motion.div>
       </section>
 
-      {/* ATHLETES GRID */}
+      {/* GRID */}
       <section className="px-6 pb-28">
         <div className="max-w-6xl mx-auto grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {ATHLETES.map((athlete, i) => (
@@ -157,18 +159,17 @@ export default function TeamPage() {
               custom={i}
               className="group rounded-2xl overflow-hidden border border-white/10 bg-white/[0.03] backdrop-blur-xl"
             >
-              {/* IMAGE */}
               <div className="relative h-80 w-full overflow-hidden">
                 <Image
                   src={athlete.image}
                   alt={athlete.name}
                   fill
+                  loading="lazy"
                   className="object-cover group-hover:scale-105 transition-transform duration-500"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
               </div>
 
-              {/* CONTENT */}
               <div className="p-6 space-y-2">
                 <div className="flex justify-between items-center">
                   <h2 className="text-xl font-black">{athlete.name}</h2>

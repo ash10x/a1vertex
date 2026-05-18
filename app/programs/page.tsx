@@ -1,10 +1,11 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, Variants } from "framer-motion";
 
-const fadeUp = {
+// ── FIX: strict Framer Motion Variants typing ───────────────────────────────
+const fadeUp: Variants = {
   hidden: { opacity: 0, y: 26 },
-  visible: (i = 0) => ({
+  visible: (i: number = 0) => ({
     opacity: 1,
     y: 0,
     transition: {

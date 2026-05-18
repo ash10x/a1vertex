@@ -1,11 +1,11 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, Variants } from "framer-motion";
 import Image from "next/image";
 
-const fadeUp = {
+const fadeUp: Variants = {
   hidden: { opacity: 0, y: 26 },
-  visible: (i = 0) => ({
+  visible: (i: number = 0) => ({
     opacity: 1,
     y: 0,
     transition: {
@@ -16,7 +16,15 @@ const fadeUp = {
   }),
 };
 
-const PRODUCTS = [
+type Product = {
+  name: string;
+  category: string;
+  price: string;
+  image: string;
+  desc: string;
+};
+
+const PRODUCTS: Product[] = [
   {
     name: "A1 Vertex Uniform Kit",
     category: "Uniforms",
@@ -114,6 +122,7 @@ export default function ShopPage() {
                   src={item.image}
                   alt={item.name}
                   fill
+                  sizes="(max-width: 768px) 100vw, 33vw"
                   className="object-cover group-hover:scale-105 transition-transform duration-500"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />

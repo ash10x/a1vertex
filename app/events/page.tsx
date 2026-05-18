@@ -4,15 +4,10 @@ import { motion } from "framer-motion";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 26 },
-  visible: (i = 0) => ({
+  visible: {
     opacity: 1,
     y: 0,
-    transition: {
-      duration: 0.7,
-      ease: [0.22, 1, 0.36, 1],
-      delay: i * 0.1,
-    },
-  }),
+  },
 };
 
 const EVENTS = [
@@ -64,7 +59,7 @@ export default function EventsPage() {
           variants={fadeUp}
           initial="hidden"
           animate="visible"
-          custom={0}
+          transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1], delay: 0 }}
           className="relative max-w-4xl mx-auto"
         >
           <p className="text-cyan-400 text-xs tracking-[0.25em] uppercase font-semibold mb-4">
@@ -94,7 +89,11 @@ export default function EventsPage() {
               variants={fadeUp}
               initial="hidden"
               animate="visible"
-              custom={i}
+              transition={{
+                duration: 0.7,
+                ease: [0.22, 1, 0.36, 1],
+                delay: i * 0.1,
+              }}
               className="rounded-2xl border border-white/10 bg-white/[0.03] p-6 flex flex-col lg:flex-row lg:items-center justify-between gap-6"
             >
               {/* LEFT */}

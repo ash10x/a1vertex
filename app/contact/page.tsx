@@ -1,198 +1,302 @@
 "use client";
 
-import { motion } from "framer-motion";
+import Link from "next/link";
+import Image from "next/image";
+import { useState, useEffect, useRef, useCallback } from "react";
+import { usePathname } from "next/navigation";
+import {
+  motion,
+  AnimatePresence,
+  useScroll,
+  useReducedMotion,
+} from "framer-motion";
 
-const fadeUp = {
-  hidden: { opacity: 0, y: 26 },
-  visible: (i = 0) => ({
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.7,
-      ease: [0.22, 1, 0.36, 1],
-      delay: i * 0.1,
-    },
-  }),
-};
-
-const FAQ = [
-  {
-    q: "How do I join A1 Vertex Athletics?",
-    a: "Submit a registration form or attend a scheduled tryout. All athletes are evaluated before placement.",
-  },
-  {
-    q: "Where are practices held?",
-    a: "Training sessions are held at designated track facilities and strength centers, depending on the day.",
-  },
-  {
-    q: "Do you accept beginners?",
-    a: "Yes. Athletes are placed into groups based on development level and performance potential.",
-  },
-  {
-    q: "How often do athletes train?",
-    a: "Training frequency depends on group level, typically 3–5 sessions per week.",
-  },
+const NAV_LINKS = [
+  { href: "/", label: "Home" },
+  { href: "/coaches", label: "Coaches" },
+  { href: "/team", label: "Team" },
+  { href: "/training", label: "Training" },
+  { href: "/events", label: "Events" },
+  { href: "/programs", label: "Programs" },
+  { href: "/gallery", label: "Gallery" },
+  { href: "/shop", label: "Shop" },
+  { href: "/contact", label: "Contact" },
 ];
 
-export default function ContactPage() {
+function NavItem({
+  href,
+  label,
+  active,
+}: {
+  href: string;
+  label: string;
+  active: boolean;
+}) {
   return (
-    <main className="min-h-screen bg-[#080808] text-white overflow-hidden">
-      {/* HERO */}
-      <section className="relative pt-32 pb-16 px-6 text-center">
-        <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-[700px] h-[700px] bg-cyan-400/10 blur-3xl rounded-full" />
-          <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-pink-500/10 blur-3xl rounded-full" />
-        </div>
+    <motion.div
+      whileHover={{ y: -2, scale: 1.03 }}
+      whileTap={{ scale: 0.97 }}
+      className="relative"
+    >
+      <Link
+        href={href}
+        aria-current={active ? "page" : undefined}
+        className={`
+          relative flex items-center justify-center
+          px-5 py-2.5 rounded-full
+          text-sm font-semibold tracking-wider
+          transition-all duration-300
+          overflow-hidden
+          focus-visible:outline-none
+          focus-visible:ring-2
+          focus-visible:ring-cyan-400/70
+          focus-visible:ring-offset-2
+          focus-visible:ring-offset-black
+          ${
+            active
+              ? "text-white"
+              : "text-white/65 hover:text-white hover:bg-white/[0.045]"
+          }
+        `}
+      >
+        {active && (
+          <motion.div
+            layoutId="active-pill"
+            className="absolute inset-0 rounded-full bg-white/10 border border-cyan-400/10 shadow-[0_0_30px_rgba(34,211,238,0.18)]"
+            transition={{
+              type: "spring",
+              stiffness: 380,
+              damping: 30,
+            }}
+          />
+        )}
 
-        <motion.div
-          variants={fadeUp}
-          initial="hidden"
-          animate="visible"
-          custom={0}
-          className="relative max-w-4xl mx-auto"
-        >
-          <p className="text-cyan-400 text-xs tracking-[0.25em] uppercase font-semibold mb-4">
-            Get In Touch
-          </p>
+        <span className="relative z-10">{label}</span>
+      </Link>
+    </motion.div>
+  );
+}
 
-          <h1 className="text-4xl md:text-6xl font-black leading-tight">
-            Contact Us.
-            <span className="block text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-pink-400 to-yellow-300">
-              Let’s Build Champions.
-            </span>
-          </h1>
+function MobileNavItem({
+  href,
+  label,
+  active,
+  index,
+  onClick,
+  reducedMotion,
+}: {
+  href: string;
+  label: string;
+  active: boolean;
+  index: number;
+  onClick: () => void;
+  reducedMotion: boolean;
+}) {
+  return (
+    <motion.div
+      initial={reducedMotion ? { opacity: 0 } : { opacity: 0, x: 24 }}
+      animate={reducedMotion ? { opacity: 1 } : { opacity: 1, x: 0 }}
+      transition={{ delay: index * 0.05 }}
+    >
+      <Link
+        href={href}
+        onClick={onClick}
+        aria-current={active ? "page" : undefined}
+        className={`
+          flex items-center
+          px-5 py-4 rounded-2xl
+          text-base font-semibold
+          transition-all duration-300
+          border
+          focus-visible:outline-none
+          focus-visible:ring-2
+          focus-visible:ring-cyan-400/70
+          focus-visible:ring-offset-2
+          focus-visible:ring-offset-black
+          ${
+            active
+              ? "bg-cyan-400/10 text-cyan-400 border-cyan-400/20"
+              : "text-white/70 border-transparent hover:text-white hover:bg-white/[0.045]"
+          }
+        `}
+      >
+        {label}
 
-          <p className="text-white/60 mt-6 max-w-2xl mx-auto">
-            Reach out for athlete registration, coaching inquiries, or training
-            information.
-          </p>
-        </motion.div>
-      </section>
+        {active && (
+          <motion.span
+            layoutId="mobile-active-dot"
+            className="ml-auto w-2 h-2 rounded-full bg-cyan-400"
+          />
+        )}
+      </Link>
+    </motion.div>
+  );
+}
 
-      {/* CONTENT */}
-      <section className="px-6 pb-20">
-        <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-8">
-          {/* CONTACT FORM */}
-          <motion.form
-            variants={fadeUp}
-            initial="hidden"
-            animate="visible"
-            custom={1}
-            className="rounded-2xl border border-white/10 bg-white/[0.03] p-6 space-y-4"
+export default function Navigation() {
+  const pathname = usePathname();
+
+  const prefersReducedMotion = useReducedMotion() ?? false;
+
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const [hidden, setHidden] = useState(false);
+
+  const lastYRef = useRef(0);
+  const { scrollYProgress } = useScroll();
+
+  const closeMenu = useCallback(() => {
+    setMobileOpen(false);
+  }, []);
+
+  const isActiveRoute = useCallback(
+    (href: string) => {
+      return href === "/" ? pathname === "/" : pathname.startsWith(href);
+    },
+    [pathname],
+  );
+
+  useEffect(() => {
+    let ticking = false;
+
+    const updateScroll = () => {
+      const currentY = window.scrollY;
+
+      setScrolled(currentY > 40);
+
+      if (currentY > lastYRef.current && currentY > 120) {
+        setHidden(true);
+      } else {
+        setHidden(false);
+      }
+
+      lastYRef.current = currentY;
+      ticking = false;
+    };
+
+    const onScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(updateScroll);
+        ticking = true;
+      }
+    };
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setMobileOpen(false);
+    };
+
+    window.addEventListener("keydown", handleEscape);
+    return () => window.removeEventListener("keydown", handleEscape);
+  }, []);
+
+  useEffect(() => {
+    setMobileOpen(false);
+  }, [pathname]);
+
+  useEffect(() => {
+    document.body.style.overflow = mobileOpen ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [mobileOpen]);
+
+  return (
+    <>
+      {/* Scroll Progress */}
+      <motion.div
+        className="fixed top-0 left-0 right-0 z-[70] h-[2px] bg-cyan-400 origin-left"
+        style={{ scaleX: scrollYProgress }}
+      />
+
+      {/* Navbar */}
+      <motion.nav
+        initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: -16 }}
+        animate={{
+          opacity: 1,
+          y: hidden ? -120 : 0,
+        }}
+        transition={{ duration: 0.45, ease: [0.25, 0.1, 0.25, 1] }}
+        className={`
+          fixed top-[2px] left-0 right-0 z-50
+          transition-all duration-500
+          relative overflow-hidden
+          before:absolute before:inset-x-0 before:bottom-0 before:h-px
+          before:bg-gradient-to-r before:from-transparent before:via-cyan-400/40 before:to-transparent
+          ${
+            scrolled
+              ? "bg-black/70 backdrop-blur-3xl border-b border-white/[0.06]"
+              : "bg-black/35 backdrop-blur-2xl border-b border-white/[0.04]"
+          }
+        `}
+      >
+        <div className="relative max-w-[1440px] mx-auto px-5 sm:px-8 h-20 flex items-center justify-between gap-6">
+          <motion.div
+            whileHover={{ scale: 1.03, y: -1 }}
+            whileTap={{ scale: 0.97 }}
           >
-            <h2 className="text-xl font-black mb-2">Send a Message</h2>
-
-            <input
-              placeholder="Full Name"
-              className="w-full px-4 py-3 rounded-xl bg-black/40 border border-white/10"
-            />
-
-            <input
-              placeholder="Email"
-              className="w-full px-4 py-3 rounded-xl bg-black/40 border border-white/10"
-            />
-
-            <input
-              placeholder="Phone Number"
-              className="w-full px-4 py-3 rounded-xl bg-black/40 border border-white/10"
-            />
-
-            <textarea
-              placeholder="Your Message"
-              rows={5}
-              className="w-full px-4 py-3 rounded-xl bg-black/40 border border-white/10"
-            />
-
-            <button
-              type="submit"
-              className="w-full py-3.5 rounded-full bg-gradient-to-r from-cyan-400 to-pink-400 text-black font-black text-sm"
-            >
-              Send Message
-            </button>
-          </motion.form>
-
-          {/* CONTACT INFO + MAP */}
-          <div className="space-y-6">
-            <motion.div
-              variants={fadeUp}
-              initial="hidden"
-              animate="visible"
-              custom={2}
-              className="rounded-2xl border border-white/10 bg-white/[0.03] p-6 space-y-3"
-            >
-              <h2 className="text-xl font-black">Contact Details</h2>
-
-              <p className="text-white/60 text-sm">
-                <span className="text-white/80 font-semibold">Email:</span>{" "}
-                info@a1vertexathletics.com
-              </p>
-
-              <p className="text-white/60 text-sm">
-                <span className="text-white/80 font-semibold">Phone:</span> +1
-                (876) 000-0000
-              </p>
-
-              <a
-                href="https://instagram.com"
-                target="_blank"
-                className="text-cyan-400 text-sm font-semibold"
-              >
-                Follow on Instagram
-              </a>
-            </motion.div>
-
-            {/* MAP */}
-            <motion.div
-              variants={fadeUp}
-              initial="hidden"
-              animate="visible"
-              custom={3}
-              className="rounded-2xl overflow-hidden border border-white/10 bg-white/[0.03]"
-            >
-              <div className="p-4 border-b border-white/10">
-                <h3 className="font-black">Practice Location</h3>
-                <p className="text-white/60 text-sm">
-                  National Stadium Training Complex
-                </p>
-              </div>
-
-              <iframe
-                title="Practice Location Map"
-                className="w-full h-72"
-                loading="lazy"
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d..."
+            <Link href="/" className="flex items-center gap-2 rounded-xl">
+              <Image
+                src="/logo/logo.png"
+                alt="A1 Vertex"
+                width={75}
+                height={75}
+                priority
               />
-            </motion.div>
-          </div>
-        </div>
-      </section>
+            </Link>
+          </motion.div>
 
-      {/* FAQ */}
-      <section className="px-6 pb-28">
-        <motion.div
-          variants={fadeUp}
-          initial="hidden"
-          animate="visible"
-          custom={0}
-          className="max-w-6xl mx-auto"
-        >
-          <h2 className="text-2xl font-black mb-6 text-center">
-            Frequently Asked Questions
-          </h2>
-
-          <div className="grid md:grid-cols-2 gap-4">
-            {FAQ.map((item, i) => (
-              <div
-                key={item.q}
-                className="rounded-2xl border border-white/10 bg-white/[0.03] p-5"
-              >
-                <h3 className="font-black mb-2">{item.q}</h3>
-                <p className="text-white/60 text-sm">{item.a}</p>
-              </div>
+          <div className="hidden md:flex items-center gap-2 xl:gap-3">
+            {NAV_LINKS.map((link) => (
+              <NavItem
+                key={link.href}
+                href={link.href}
+                label={link.label}
+                active={isActiveRoute(link.href)}
+              />
             ))}
           </div>
-        </motion.div>
-      </section>
-    </main>
+
+          <div className="flex items-center gap-3">
+            <motion.div
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.96 }}
+              className="hidden md:block"
+            >
+              <Link
+                href="/registration"
+                className="px-6 py-2.5 rounded-full bg-cyan-400 text-black font-black text-sm"
+              >
+                Register Now
+              </Link>
+            </motion.div>
+
+            <button
+              onClick={() => setMobileOpen((v) => !v)}
+              className="md:hidden w-11 h-11 flex items-center justify-center"
+            >
+              ☰
+            </button>
+          </div>
+        </div>
+      </motion.nav>
+
+      <AnimatePresence>
+        {mobileOpen && (
+          <motion.div
+            className="fixed inset-0 z-50 bg-black/80 md:hidden"
+            onClick={closeMenu}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          />
+        )}
+      </AnimatePresence>
+    </>
   );
 }

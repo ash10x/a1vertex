@@ -1,11 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { motion } from "framer-motion";
+import { motion, Variants } from "framer-motion";
 
-const fadeUp = {
+const fadeUp: Variants = {
   hidden: { opacity: 0, y: 24 },
-  visible: (i = 0) => ({
+  visible: (i: number = 0) => ({
     opacity: 1,
     y: 0,
     transition: {
@@ -16,8 +16,21 @@ const fadeUp = {
   }),
 };
 
+type FormState = {
+  athleteName: string;
+  age: string;
+  events: string;
+  experience: string;
+  parentName: string;
+  email: string;
+  phone: string;
+  emergencyContact: string;
+  tryoutDate: string;
+  waitlist: boolean;
+};
+
 export default function RegistrationPage() {
-  const [form, setForm] = useState({
+  const [form, setForm] = useState<FormState>({
     athleteName: "",
     age: "",
     events: "",
@@ -108,6 +121,7 @@ export default function RegistrationPage() {
               <h2 className="text-yellow-300 text-xs uppercase tracking-[0.25em] font-semibold mb-3">
                 Payment Integration
               </h2>
+
               <p className="text-white/60 text-sm">
                 Secure payment gateway integration (Stripe / PayPal) for
                 registration fees, monthly training plans, or tryout access.
@@ -194,7 +208,6 @@ export default function RegistrationPage() {
               className="w-full px-4 py-3 rounded-xl bg-black/40 border border-white/10"
             />
 
-            {/* Waiver Upload */}
             <div className="border border-white/10 rounded-xl p-4 bg-black/30">
               <p className="text-xs text-white/60 mb-2">Waiver Upload</p>
               <input type="file" className="text-sm text-white/60" />
