@@ -4,12 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useRef, useState, useCallback } from "react";
 import { usePathname } from "next/navigation";
-import {
-  motion,
-  AnimatePresence,
-  useScroll,
-  useReducedMotion,
-} from "framer-motion";
+import { motion, AnimatePresence, useScroll } from "framer-motion";
 
 const NAV_ITEMS = [
   { href: "/", label: "Home" },
@@ -25,15 +20,13 @@ const NAV_ITEMS = [
 
 export default function Navigation() {
   const pathname = usePathname();
-  const reduceMotion = useReducedMotion();
 
-  const { scrollYProgress } = useScroll();
+  const { scrollY } = useScroll();
+  const lastY = useRef(0);
 
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [hidden, setHidden] = useState(false);
-
-  const lastScrollY = useRef(0);
 
   const isActive = useCallback(
     (href: string) =>
@@ -42,28 +35,14 @@ export default function Navigation() {
   );
 
   useEffect(() => {
-    let ticking = false;
+    const unsubscribe = scrollY.on("change", (y) => {
+      setScrolled(y > 30);
+      setHidden(y > lastY.current && y > 120);
+      lastY.current = y;
+    });
 
-    const handleScroll = () => {
-      const y = window.scrollY;
-
-      if (!ticking) {
-        window.requestAnimationFrame(() => {
-          setScrolled(y > 30);
-
-          setHidden(y > lastScrollY.current && y > 120);
-
-          lastScrollY.current = y;
-          ticking = false;
-        });
-
-        ticking = true;
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+    return () => unsubscribe();
+  }, [scrollY]);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -87,32 +66,26 @@ export default function Navigation() {
 
   return (
     <>
-      {/* Scroll progress */}
+      {/* Scroll indicator */}
       <motion.div
         className="fixed top-0 left-0 right-0 z-[70] h-[2px] bg-cyan-400 origin-left"
-        style={{ scaleX: scrollYProgress }}
+        style={{ scaleX: scrollY }}
       />
 
       {/* NAVBAR */}
       <motion.nav
         initial={{ opacity: 0, y: -20 }}
-        animate={{
-          opacity: 1,
-          y: hidden ? -110 : 0,
-        }}
-        transition={{
-          duration: 0.4,
-          ease: "easeOut",
-        }}
+        animate={{ opacity: 1, y: hidden ? -120 : 0 }}
+        transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
         className={`
           fixed top-[2px] left-0 right-0 z-50
-          backdrop-blur-2xl
+          backdrop-blur-3xl
           border-b
           transition-all duration-300
           ${
             scrolled
               ? "bg-black/70 border-white/10"
-              : "bg-black/30 border-white/5"
+              : "bg-black/25 border-white/5"
           }
         `}
       >
@@ -121,9 +94,9 @@ export default function Navigation() {
           <Link href="/" className="flex items-center">
             <Image
               src="/logo/logo.png"
-              alt="Logo"
-              width={70}
-              height={70}
+              alt="A1 Vertex"
+              width={72}
+              height={72}
               priority
             />
           </Link>
@@ -138,17 +111,12 @@ export default function Navigation() {
                   key={item.href}
                   whileHover={{ y: -2, scale: 1.03 }}
                   whileTap={{ scale: 0.97 }}
-                  className="relative"
                 >
                   <Link
                     href={item.href}
-                    className={`
-                      relative px-5 py-2.5 rounded-full text-sm font-semibold
-                      transition-all duration-300
-                      ${
-                        active ? "text-white" : "text-white/60 hover:text-white"
-                      }
-                    `}
+                    className={`relative px-5 py-2.5 rounded-full text-sm font-semibold transition ${
+                      active ? "text-white" : "text-white/60 hover:text-white"
+                    }`}
                   >
                     {active && (
                       <motion.span
@@ -156,12 +124,11 @@ export default function Navigation() {
                         className="absolute inset-0 rounded-full bg-white/10 border border-cyan-400/10 shadow-[0_0_25px_rgba(34,211,238,0.15)]"
                         transition={{
                           type: "spring",
-                          stiffness: 400,
-                          damping: 30,
+                          stiffness: 420,
+                          damping: 32,
                         }}
                       />
                     )}
-
                     <span className="relative z-10">{item.label}</span>
                   </Link>
                 </motion.div>
@@ -201,14 +168,14 @@ export default function Navigation() {
         )}
       </AnimatePresence>
 
-      {/* MOBILE MENU (clean foundation for next upgrade) */}
+      {/* MOBILE MENU */}
       <AnimatePresence>
         {open && (
-          <motion.div
-            className="fixed top-0 right-0 w-[85%] max-w-sm h-full z-50 bg-black/95 backdrop-blur-2xl border-l border-white/10 md:hidden p-6"
-            initial={{ x: 300, opacity: 0 }}
+          <motion.aside
+            className="fixed top-0 right-0 w-[85%] max-w-sm h-full z-50 bg-black/95 backdrop-blur-3xl border-l border-white/10 md:hidden p-6"
+            initial={{ x: 280, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
-            exit={{ x: 300, opacity: 0 }}
+            exit={{ x: 280, opacity: 0 }}
             transition={{ duration: 0.35, ease: "easeOut" }}
           >
             <div className="flex flex-col gap-3 mt-10">
@@ -218,25 +185,18 @@ export default function Navigation() {
                 return (
                   <motion.div
                     key={item.href}
-                    initial={{ opacity: 0, x: 20 }}
-                    animate={{
-                      opacity: 1,
-                      x: 0,
-                      transition: { delay: i * 0.04 },
-                    }}
+                    initial={{ opacity: 0, x: 16 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: i * 0.04 }}
                   >
                     <Link
                       href={item.href}
                       onClick={() => setOpen(false)}
-                      className={`
-                        block px-5 py-4 rounded-2xl text-base font-semibold
-                        transition
-                        ${
-                          active
-                            ? "bg-cyan-400/10 text-cyan-400 border border-cyan-400/20"
-                            : "text-white/70 hover:text-white hover:bg-white/5"
-                        }
-                      `}
+                      className={`block px-5 py-4 rounded-2xl text-base font-semibold transition ${
+                        active
+                          ? "bg-cyan-400/10 text-cyan-400 border border-cyan-400/20"
+                          : "text-white/70 hover:text-white hover:bg-white/5"
+                      }`}
                     >
                       {item.label}
                     </Link>
@@ -244,7 +204,7 @@ export default function Navigation() {
                 );
               })}
             </div>
-          </motion.div>
+          </motion.aside>
         )}
       </AnimatePresence>
     </>

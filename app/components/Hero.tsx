@@ -187,7 +187,7 @@ export default function CinematicAppleLanding() {
 
           <div className="mt-10 flex gap-4 justify-center flex-wrap">
             <a
-              href="#contact"
+              href="/registration"
               className="px-8 py-3.5 rounded-full font-bold text-black text-sm"
               style={{
                 background: "linear-gradient(90deg, #facc15, #f472b6)",
