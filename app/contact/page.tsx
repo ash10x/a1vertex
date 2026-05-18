@@ -28,15 +28,13 @@ export default function ContactPage() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
     setLoading(true);
 
     try {
-      // SAFE: replace later with API route (/api/contact)
       await new Promise((res) => setTimeout(res, 1000));
       alert("Message sent successfully.");
     } catch (err) {
-      console.error("Contact form error:", err);
+      console.error(err);
       alert("Something went wrong. Please try again.");
     } finally {
       setLoading(false);
@@ -44,38 +42,50 @@ export default function ContactPage() {
   };
 
   return (
-    <main className="min-h-screen bg-black text-white px-5 py-24">
-      {/* Background glow (safe static div, no hydration issues) */}
+    <main className="min-h-screen bg-[#050505] text-white overflow-hidden">
+      {/* GLOBAL BACKGROUND */}
       <div className="fixed inset-0 pointer-events-none">
-        <div className="absolute top-[-250px] left-1/2 -translate-x-1/2 w-[700px] h-[700px] bg-cyan-400/10 blur-[140px]" />
+        <div className="absolute top-[-200px] left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-cyan-400/10 blur-[160px] rounded-full" />
+        <div className="absolute bottom-[-200px] right-0 w-[700px] h-[700px] bg-pink-500/10 blur-[160px] rounded-full" />
       </div>
 
-      <div className="max-w-6xl mx-auto space-y-16 relative">
-        {/* HEADER */}
+      <div className="max-w-7xl mx-auto px-6 py-28 space-y-20 relative">
+        {/* HERO */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 18 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4, ease: "easeOut" }}
-          className="text-center"
+          transition={{ duration: 0.5 }}
+          className="text-center max-w-3xl mx-auto"
         >
-          <h1 className="text-4xl md:text-5xl font-bold">
-            Contact <span className="text-cyan-400">Us</span>
+          <p className="text-cyan-400 text-xs tracking-[0.3em] uppercase mb-4">
+            Get in Touch
+          </p>
+
+          <h1 className="text-4xl md:text-6xl font-black leading-tight">
+            Contact A1 Vertex
+            <span className="block text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-white to-pink-400">
+              Athletics Support Team
+            </span>
           </h1>
-          <p className="mt-3 text-white/60">
-            Get in touch for training, partnerships, or inquiries.
+
+          <p className="text-white/60 mt-6">
+            For athlete inquiries, training questions, partnerships, or program
+            information.
           </p>
         </motion.div>
 
-        {/* GRID */}
-        <div className="grid md:grid-cols-2 gap-10">
+        {/* MAIN GRID */}
+        <div className="grid lg:grid-cols-2 gap-10 items-start">
           {/* FORM */}
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.4, ease: "easeOut" }}
-            className="p-6 rounded-3xl border border-white/10 bg-white/5 backdrop-blur-2xl"
+            transition={{ duration: 0.5 }}
+            className="rounded-[2rem] border border-white/10 bg-white/[0.03] backdrop-blur-xl p-8"
           >
-            <form onSubmit={handleSubmit} className="space-y-5">
+            <h2 className="text-xl font-black mb-6">Send a Message</h2>
+
+            <form onSubmit={handleSubmit} className="space-y-4">
               <input
                 type="text"
                 required
@@ -97,8 +107,8 @@ export default function ContactPage() {
               />
 
               <textarea
-                required
                 rows={5}
+                required
                 placeholder="Message"
                 className="w-full px-4 py-3 rounded-xl bg-black/40 border border-white/10 focus:border-cyan-400/40 outline-none resize-none"
               />
@@ -106,54 +116,62 @@ export default function ContactPage() {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full py-3 rounded-xl bg-cyan-400 text-black font-bold transition hover:scale-[1.02] disabled:opacity-60"
+                className="w-full py-3 rounded-full bg-gradient-to-r from-cyan-400 to-pink-400 text-black font-black text-sm hover:scale-[1.02] transition disabled:opacity-60"
               >
                 {loading ? "Sending..." : "Send Message"}
               </button>
             </form>
           </motion.div>
 
-          {/* CONTACT INFO */}
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.4, ease: "easeOut" }}
-            className="space-y-5"
-          >
-            <div className="p-6 rounded-3xl border border-white/10 bg-white/5 backdrop-blur-2xl space-y-3">
-              <h2 className="text-lg font-semibold text-cyan-400">
-                Contact Info
+          {/* INFO PANEL */}
+          <div className="space-y-6">
+            {/* CONTACT CARD */}
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.5 }}
+              className="rounded-[2rem] border border-white/10 bg-white/[0.03] p-8"
+            >
+              <h2 className="text-xl font-black text-cyan-400 mb-4">
+                Direct Contact
               </h2>
 
-              <p>📧 support@a1vertex.com</p>
-              <p>📞 +1 (876) 000-0000</p>
+              <div className="space-y-3 text-white/70 text-sm">
+                <p>📧 support@a1vertex.com</p>
+                <p>📞 +1 (876) 000-0000</p>
+                <p>📍 Spanish Town, Jamaica</p>
+              </div>
 
               <a
                 href="https://instagram.com"
                 target="_blank"
-                rel="noopener noreferrer"
-                className="inline-block text-pink-400 hover:underline"
+                className="inline-block mt-6 text-pink-400 hover:text-white transition"
               >
                 Instagram →
               </a>
-            </div>
+            </motion.div>
 
-            {/* MAP (Vercel-safe iframe attributes) */}
-            <div className="rounded-3xl overflow-hidden border border-white/10">
+            {/* MAP */}
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6 }}
+              className="rounded-[2rem] overflow-hidden border border-white/10"
+            >
               <iframe
-                title="Practice Location"
+                title="Training Location"
                 src="https://www.google.com/maps?q=Spanish%20Town%20Jamaica&output=embed"
                 className="w-full h-64"
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
               />
-            </div>
-          </motion.div>
+            </motion.div>
+          </div>
         </div>
 
         {/* FAQ */}
-        <div className="space-y-4">
-          <h2 className="text-2xl font-bold text-center">
+        <div className="max-w-4xl mx-auto space-y-6">
+          <h2 className="text-center text-3xl font-black">
             Frequently Asked <span className="text-cyan-400">Questions</span>
           </h2>
 
@@ -162,7 +180,7 @@ export default function ContactPage() {
               <div
                 key={i}
                 onClick={() => setOpenFAQ(openFAQ === i ? null : i)}
-                className="p-5 rounded-2xl border border-white/10 bg-white/5 cursor-pointer hover:bg-white/10 transition"
+                className="cursor-pointer rounded-2xl border border-white/10 bg-white/[0.03] p-5 hover:bg-white/[0.06] transition"
               >
                 <div className="flex justify-between items-center">
                   <h3 className="font-semibold">{item.q}</h3>

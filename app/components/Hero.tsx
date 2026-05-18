@@ -53,7 +53,7 @@ export default function CinematicAppleLanding() {
           playsInline
           className="absolute inset-0 w-full h-full object-cover scale-[1.05] opacity-50"
         >
-          <source src="/video/main.mp4" type="video/mp4" />
+          <source src="/video/main1.mp4" type="video/mp4" />
         </video>
 
         {/* cinematic overlays */}

@@ -1,227 +1,376 @@
 "use client";
 
+import { motion, cubicBezier, Variants } from "framer-motion";
 import { useState } from "react";
-import { motion, Variants } from "framer-motion";
 
 const fadeUp: Variants = {
-  hidden: { opacity: 0, y: 24 },
+  hidden: { opacity: 0, y: 26 },
   visible: (i: number = 0) => ({
     opacity: 1,
     y: 0,
     transition: {
       duration: 0.7,
-      ease: [0.22, 1, 0.36, 1],
+      ease: cubicBezier(0.22, 1, 0.36, 1),
       delay: i * 0.1,
     },
   }),
 };
 
-type FormState = {
-  athleteName: string;
-  age: string;
-  events: string;
-  experience: string;
-  parentName: string;
-  email: string;
-  phone: string;
-  emergencyContact: string;
-  tryoutDate: string;
-  waitlist: boolean;
-};
+const PROGRAM_HIGHLIGHTS = [
+  "32-week structured development season",
+  "4–5 training sessions per week",
+  "Only 12 athletes accepted (6 boys / 6 girls)",
+  "Olympic-level sprint coaching",
+  "Strength & conditioning system",
+  "Recovery & wellness support",
+  "Athlete gear package included",
+  "Meet preparation & support",
+];
 
-export default function RegistrationPage() {
-  const [form, setForm] = useState<FormState>({
-    athleteName: "",
+const BENEFITS = [
+  {
+    title: "Individualized Development",
+    items: [
+      "Personalized athlete programming",
+      "Event-specific development",
+      "Progression tracking",
+      "Movement assessments",
+    ],
+  },
+  {
+    title: "Sprint & Technical Coaching",
+    items: [
+      "Three-time Olympian sprint coaching",
+      "Sprint mechanics",
+      "Acceleration development",
+      "Race execution training",
+    ],
+  },
+  {
+    title: "Strength & Conditioning",
+    items: [
+      "Speed & power development",
+      "Movement quality improvement",
+      "Injury prevention support",
+      "Athletic durability training",
+    ],
+  },
+  {
+    title: "Recovery & Wellness",
+    items: [
+      "Weekly recovery support",
+      "Mobility & wellness checks",
+      "Muscle recovery guidance",
+      "Athlete maintenance support",
+    ],
+  },
+  {
+    title: "Nutrition & Hydration",
+    items: [
+      "Water & electrolytes",
+      "Healthy athlete snacks",
+      "Basic nutrition support",
+      "Practice & meet hydration",
+    ],
+  },
+  {
+    title: "Athlete Gear Package",
+    items: [
+      "Competition uniforms",
+      "Training apparel",
+      "Athlete backpack",
+      "Recovery accessories",
+    ],
+  },
+];
+
+const PRICING = [
+  { label: "Monthly Tuition", value: "$550 / Month" },
+  { label: "Program Duration", value: "11 Months" },
+  { label: "Total Investment", value: "$6,050 Per Athlete" },
+];
+
+export default function RegistrationSection() {
+  const [form, setForm] = useState({
+    name: "",
     age: "",
-    events: "",
-    experience: "",
-    parentName: "",
+    event: "",
     email: "",
     phone: "",
-    emergencyContact: "",
-    tryoutDate: "",
-    waitlist: false,
+    experience: "",
   });
 
   return (
-    <main className="min-h-screen bg-[#080808] text-white relative overflow-hidden">
-      {/* Background glow */}
+    <section className="relative py-28 px-6 bg-[#080808] overflow-hidden">
+      {/* Background Glow */}
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute -top-40 left-1/3 w-[600px] h-[600px] bg-cyan-400/10 blur-3xl rounded-full" />
-        <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-pink-500/10 blur-3xl rounded-full" />
+        <div className="absolute -top-40 left-1/3 w-[700px] h-[700px] bg-cyan-400/10 blur-3xl rounded-full" />
+        <div className="absolute bottom-0 right-1/4 w-[520px] h-[520px] bg-pink-500/10 blur-3xl rounded-full" />
       </div>
 
-      {/* HERO */}
-      <section className="relative pt-32 pb-16 px-6 text-center">
+      <div className="relative max-w-7xl mx-auto">
+        {/* HERO */}
         <motion.div
           variants={fadeUp}
           initial="hidden"
           animate="visible"
-          className="max-w-3xl mx-auto"
+          custom={0}
+          className="text-center mb-16"
         >
-          <h1 className="text-4xl md:text-6xl font-black">
-            Athlete Registration
+          <p className="text-cyan-400 text-xs tracking-[0.3em] uppercase font-semibold mb-5">
+            2026–2027 Athlete Development Program
+          </p>
+
+          <h1 className="text-4xl md:text-6xl font-black leading-[0.95] tracking-tight">
+            Elite Athlete
+            <span className="block text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-pink-400 to-yellow-300">
+              Development System
+            </span>
           </h1>
 
-          <p className="text-white/60 mt-4">
-            Register your interest for A1 Vertex Athletics. All submissions are
-            reviewed for placement, tryouts, or waitlist status.
+          <p className="text-white/60 max-w-3xl mx-auto mt-6 leading-relaxed text-lg">
+            A boutique high-performance training environment designed to develop
+            disciplined, confident, and highly competitive athletes through
+            individualized coaching and long-term progression systems.
           </p>
         </motion.div>
-      </section>
 
-      {/* FORM */}
-      <section className="relative px-6 pb-24">
-        <div className="max-w-5xl mx-auto grid lg:grid-cols-2 gap-8">
-          {/* LEFT INFO */}
+        {/* TOP GRID */}
+        <div className="grid lg:grid-cols-2 gap-10 mb-10">
+          {/* LEFT */}
           <motion.div
             variants={fadeUp}
             initial="hidden"
-            animate="visible"
-            custom={0}
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.3 }}
+            custom={1}
             className="space-y-6"
           >
-            <div className="p-6 rounded-2xl border border-white/10 bg-white/[0.03]">
-              <h2 className="text-cyan-400 text-xs uppercase tracking-[0.25em] font-semibold mb-3">
-                Registration Purpose
+            {/* STRUCTURE */}
+            <div className="p-8 rounded-3xl border border-white/10 bg-white/[0.03] backdrop-blur-xl">
+              <h2 className="text-cyan-400 text-xs tracking-[0.25em] uppercase font-semibold mb-5">
+                Program Structure
               </h2>
-              <p className="text-white/60 text-sm">
-                This form allows athletes and parents to submit interest for
-                training, evaluations, and placement within A1 Vertex Athletics.
-              </p>
+
+              <div className="grid sm:grid-cols-2 gap-4">
+                <div className="rounded-2xl border border-white/10 bg-black/20 p-5">
+                  <p className="text-white/40 text-xs uppercase mb-2">Season</p>
+                  <p className="text-white font-bold">Sept 2026 – July 2027</p>
+                </div>
+
+                <div className="rounded-2xl border border-white/10 bg-black/20 p-5">
+                  <p className="text-white/40 text-xs uppercase mb-2">
+                    Duration
+                  </p>
+                  <p className="text-white font-bold">32 Weeks</p>
+                </div>
+
+                <div className="rounded-2xl border border-white/10 bg-black/20 p-5">
+                  <p className="text-white/40 text-xs uppercase mb-2">
+                    Training
+                  </p>
+                  <p className="text-white font-bold">4–5 Sessions Weekly</p>
+                </div>
+
+                <div className="rounded-2xl border border-white/10 bg-black/20 p-5">
+                  <p className="text-white/40 text-xs uppercase mb-2">
+                    Capacity
+                  </p>
+                  <p className="text-white font-bold">12 Athletes Only</p>
+                </div>
+              </div>
             </div>
 
-            <div className="p-6 rounded-2xl border border-white/10 bg-white/[0.03]">
-              <h2 className="text-pink-400 text-xs uppercase tracking-[0.25em] font-semibold mb-3">
-                Tryout / Waitlist Options
+            {/* HIGHLIGHTS */}
+            <div className="p-8 rounded-3xl border border-white/10 bg-white/[0.03] backdrop-blur-xl">
+              <h2 className="text-yellow-300 text-xs tracking-[0.25em] uppercase font-semibold mb-5">
+                Program Highlights
               </h2>
 
-              <label className="flex items-center gap-3 text-sm text-white/70">
-                <input
-                  type="checkbox"
-                  checked={form.waitlist}
-                  onChange={(e) =>
-                    setForm({ ...form, waitlist: e.target.checked })
-                  }
-                />
-                Join Waitlist (if slots are full)
-              </label>
+              <div className="grid gap-3">
+                {PROGRAM_HIGHLIGHTS.map((item) => (
+                  <div
+                    key={item}
+                    className="flex items-start gap-3 p-4 rounded-2xl border border-white/10 bg-black/20"
+                  >
+                    <span className="w-2 h-2 mt-1 rounded-full bg-cyan-400 shadow-[0_0_14px_rgba(34,211,238,0.8)]" />
 
-              <input
-                type="date"
-                value={form.tryoutDate}
-                onChange={(e) =>
-                  setForm({ ...form, tryoutDate: e.target.value })
-                }
-                className="mt-4 w-full px-4 py-3 rounded-xl bg-black/40 border border-white/10 text-white"
-              />
+                    <span className="text-white/70 text-sm">{item}</span>
+                  </div>
+                ))}
+              </div>
             </div>
 
-            <div className="p-6 rounded-2xl border border-white/10 bg-white/[0.03]">
-              <h2 className="text-yellow-300 text-xs uppercase tracking-[0.25em] font-semibold mb-3">
-                Payment Integration
+            {/* PRICING */}
+            <div className="p-8 rounded-3xl border border-white/10 bg-white/[0.03] backdrop-blur-xl">
+              <h2 className="text-pink-400 text-xs tracking-[0.25em] uppercase font-semibold mb-5">
+                Investment
               </h2>
 
-              <p className="text-white/60 text-sm">
-                Secure payment gateway integration (Stripe / PayPal) for
-                registration fees, monthly training plans, or tryout access.
-              </p>
+              <div className="space-y-4">
+                {PRICING.map((item) => (
+                  <div
+                    key={item.label}
+                    className="flex items-center justify-between border-b border-white/10 pb-3"
+                  >
+                    <span className="text-white/60 text-sm">{item.label}</span>
 
-              <button className="mt-4 w-full py-3 rounded-full bg-gradient-to-r from-cyan-400 to-pink-400 text-black font-black text-sm">
-                Proceed to Payment
-              </button>
+                    <span className="text-white font-black">{item.value}</span>
+                  </div>
+                ))}
+              </div>
             </div>
           </motion.div>
 
-          {/* RIGHT FORM */}
-          <motion.form
+          {/* RIGHT — FORM */}
+          <motion.div
             variants={fadeUp}
             initial="hidden"
-            animate="visible"
-            custom={1}
-            className="p-6 rounded-2xl border border-white/10 bg-white/[0.03] space-y-4"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.3 }}
+            custom={2}
+            className="p-8 rounded-3xl border border-white/10 bg-white/[0.03] backdrop-blur-xl h-fit sticky top-28"
           >
-            <h2 className="text-white font-black text-xl mb-2">
-              Athlete & Parent Information
+            <h2 className="text-cyan-400 text-xs tracking-[0.25em] uppercase font-semibold mb-3">
+              Athlete Application
             </h2>
 
-            <input
-              placeholder="Athlete Name"
-              value={form.athleteName}
-              onChange={(e) =>
-                setForm({ ...form, athleteName: e.target.value })
-              }
-              className="w-full px-4 py-3 rounded-xl bg-black/40 border border-white/10"
-            />
+            <h3 className="text-white text-3xl font-black mb-6">
+              Start Your Evaluation
+            </h3>
 
-            <div className="grid grid-cols-2 gap-4">
+            <form className="space-y-4">
               <input
-                placeholder="Age"
-                value={form.age}
-                onChange={(e) => setForm({ ...form, age: e.target.value })}
-                className="px-4 py-3 rounded-xl bg-black/40 border border-white/10"
+                type="text"
+                placeholder="Full Name"
+                value={form.name}
+                onChange={(e) => setForm({ ...form, name: e.target.value })}
+                className="w-full px-4 py-3 rounded-2xl bg-black/40 border border-white/10 text-white placeholder:text-white/30 outline-none focus:border-cyan-400/40"
+              />
+
+              <div className="grid grid-cols-2 gap-4">
+                <input
+                  type="number"
+                  placeholder="Age"
+                  value={form.age}
+                  onChange={(e) => setForm({ ...form, age: e.target.value })}
+                  className="px-4 py-3 rounded-2xl bg-black/40 border border-white/10 text-white placeholder:text-white/30 outline-none focus:border-cyan-400/40"
+                />
+
+                <input
+                  type="text"
+                  placeholder="Primary Event"
+                  value={form.event}
+                  onChange={(e) => setForm({ ...form, event: e.target.value })}
+                  className="px-4 py-3 rounded-2xl bg-black/40 border border-white/10 text-white placeholder:text-white/30 outline-none focus:border-cyan-400/40"
+                />
+              </div>
+
+              <input
+                type="email"
+                placeholder="Email Address"
+                value={form.email}
+                onChange={(e) => setForm({ ...form, email: e.target.value })}
+                className="w-full px-4 py-3 rounded-2xl bg-black/40 border border-white/10 text-white placeholder:text-white/30 outline-none focus:border-cyan-400/40"
               />
 
               <input
-                placeholder="Events (100m, 200m...)"
-                value={form.events}
-                onChange={(e) => setForm({ ...form, events: e.target.value })}
-                className="px-4 py-3 rounded-xl bg-black/40 border border-white/10"
+                type="tel"
+                placeholder="Phone Number"
+                value={form.phone}
+                onChange={(e) => setForm({ ...form, phone: e.target.value })}
+                className="w-full px-4 py-3 rounded-2xl bg-black/40 border border-white/10 text-white placeholder:text-white/30 outline-none focus:border-cyan-400/40"
               />
-            </div>
 
-            <textarea
-              placeholder="Previous Track Experience"
-              value={form.experience}
-              onChange={(e) => setForm({ ...form, experience: e.target.value })}
-              className="w-full px-4 py-3 rounded-xl bg-black/40 border border-white/10"
-              rows={3}
-            />
+              <textarea
+                rows={5}
+                placeholder="Athletic Background / Experience"
+                value={form.experience}
+                onChange={(e) =>
+                  setForm({
+                    ...form,
+                    experience: e.target.value,
+                  })
+                }
+                className="w-full px-4 py-3 rounded-2xl bg-black/40 border border-white/10 text-white placeholder:text-white/30 outline-none focus:border-cyan-400/40"
+              />
 
-            <input
-              placeholder="Parent / Guardian Name"
-              value={form.parentName}
-              onChange={(e) => setForm({ ...form, parentName: e.target.value })}
-              className="w-full px-4 py-3 rounded-xl bg-black/40 border border-white/10"
-            />
+              <motion.button
+                type="submit"
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                className="w-full py-4 rounded-full bg-gradient-to-r from-cyan-400 to-pink-400 text-black font-black text-sm shadow-[0_0_30px_rgba(34,211,238,0.25)]"
+              >
+                Submit Athlete Application
+              </motion.button>
 
-            <input
-              placeholder="Email"
-              value={form.email}
-              onChange={(e) => setForm({ ...form, email: e.target.value })}
-              className="w-full px-4 py-3 rounded-xl bg-black/40 border border-white/10"
-            />
-
-            <input
-              placeholder="Phone"
-              value={form.phone}
-              onChange={(e) => setForm({ ...form, phone: e.target.value })}
-              className="w-full px-4 py-3 rounded-xl bg-black/40 border border-white/10"
-            />
-
-            <input
-              placeholder="Emergency Contact"
-              value={form.emergencyContact}
-              onChange={(e) =>
-                setForm({ ...form, emergencyContact: e.target.value })
-              }
-              className="w-full px-4 py-3 rounded-xl bg-black/40 border border-white/10"
-            />
-
-            <div className="border border-white/10 rounded-xl p-4 bg-black/30">
-              <p className="text-xs text-white/60 mb-2">Waiver Upload</p>
-              <input type="file" className="text-sm text-white/60" />
-            </div>
-
-            <button
-              type="submit"
-              className="w-full py-3.5 rounded-full bg-gradient-to-r from-cyan-400 to-pink-400 text-black font-black text-sm"
-            >
-              Submit Registration
-            </button>
-          </motion.form>
+              <p className="text-center text-xs text-white/40">
+                Limited intake • 12 athletes only
+              </p>
+            </form>
+          </motion.div>
         </div>
-      </section>
-    </main>
+
+        {/* BENEFITS SECTION */}
+        <motion.div
+          variants={fadeUp}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          custom={3}
+        >
+          <div className="text-center mb-12">
+            <p className="text-cyan-400 text-xs tracking-[0.25em] uppercase font-semibold mb-4">
+              Athlete Benefits
+            </p>
+
+            <h2 className="text-3xl md:text-5xl font-black text-white">
+              What Athletes Receive
+            </h2>
+          </div>
+
+          <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
+            {BENEFITS.map((benefit) => (
+              <div
+                key={benefit.title}
+                className="p-7 rounded-3xl border border-white/10 bg-white/[0.03] backdrop-blur-xl"
+              >
+                <h3 className="text-white text-xl font-black mb-5">
+                  {benefit.title}
+                </h3>
+
+                <div className="space-y-3">
+                  {benefit.items.map((item) => (
+                    <div key={item} className="flex items-start gap-3">
+                      <span className="w-2 h-2 mt-1.5 rounded-full bg-pink-400" />
+
+                      <span className="text-white/65 text-sm">{item}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </motion.div>
+
+        {/* MOTTO */}
+        <motion.div
+          variants={fadeUp}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          custom={4}
+          className="text-center mt-24"
+        >
+          <p className="text-white/30 tracking-[0.45em] uppercase text-sm mb-4">
+            A1 Vertex Athletics
+          </p>
+
+          <h2 className="text-5xl md:text-7xl font-black text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-pink-400 to-yellow-300">
+            BE GREAT.
+          </h2>
+        </motion.div>
+      </div>
+    </section>
   );
 }

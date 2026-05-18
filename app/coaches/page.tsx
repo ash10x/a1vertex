@@ -5,10 +5,7 @@ import Image from "next/image";
 import { cubicBezier } from "framer-motion";
 
 const fadeUp = {
-  hidden: {
-    opacity: 0,
-    y: 28,
-  },
+  hidden: { opacity: 0, y: 28 },
   visible: {
     opacity: 1,
     y: 0,
@@ -19,194 +16,257 @@ const fadeUp = {
   },
 };
 
+/* =========================
+   COACH KAI SELVON (FULL DATA)
+========================= */
+
+const KAI_HIGHLIGHTS = [
+  "Three-Time Olympian — Trinidad & Tobago",
+  "World Athletics Relays Bronze Medalist",
+  "Commonwealth Games Finalist",
+  "Pan American Junior Silver Medalist",
+  "CAC Championships Silver Medalist",
+  "Multiple-Time National Champion",
+  "Trinidad & Tobago Junior Record Holder",
+  "Former Auburn University Sprinter",
+  "SEC Indoor Champion",
+  "NCAA Division I Athlete",
+];
+
+const KAI_FOCUS = [
+  "Sprint mechanics",
+  "Acceleration development",
+  "Speed endurance",
+  "Relay development",
+  "Race execution",
+  "Competition preparation",
+  "Athlete confidence & discipline",
+];
+
+const KAI_PERSONAL_BESTS = [
+  { event: "100m", mark: "11.19" },
+  { event: "200m", mark: "22.85" },
+  { event: "60m Indoor", mark: "7.20" },
+  { event: "4x100 Relay", mark: "42.59" },
+];
+
+/* =========================
+   SUPPORT COACHES (UPDATED)
+========================= */
+
 const COACHES = [
   {
-    name: "Head Coach",
-    role: "Program Director & Head Coach",
-    image: "/images/coaches/head-coach.jpg",
-    experience:
-      "12+ years developing national-level sprinters and junior champions",
-    certifications: "USATF Level 2, Strength & Conditioning Specialist (NSCA)",
-    specialties:
-      "Athlete development systems, sprint mechanics, performance planning",
-    philosophy:
-      "Build complete athletes through structure, discipline, and long-term progression.",
+    name: "Coach Rivera",
+    role: "Strength & Conditioning Coach",
+    qualifications: "NSCA Certified | Sports Performance Specialist",
+    experience: "10+ years in elite sprint & athletic development systems",
+    image: "/images/coaches/coach-rivera.jpg",
+    bio: "Specializes in explosive strength development, sprint-specific conditioning, movement efficiency, and long-term athlete durability.",
+    specialties: [
+      "Explosive power development",
+      "Sprint-specific strength training",
+      "Movement mechanics",
+      "Injury prevention systems",
+      "Athlete durability programming",
+      "Performance conditioning cycles",
+    ],
+    philosophy: "Strength builds speed. Movement quality builds longevity.",
   },
+
   {
-    name: "Sprint Coach",
-    role: "Speed Development Coach",
-    image: "/images/coaches/sprint-coach.jpg",
-    experience:
-      "8+ years specializing in acceleration and max velocity training",
-    certifications: "USATF Level 1, Sprint Mechanics Certification",
-    specialties: "100m / 200m performance, block starts, top-end speed",
+    name: "Coach Thompson",
+    role: "Middle Distance Development Coach",
+    qualifications: "Endurance Performance Specialist | Track & Field Coach",
+    experience: "8+ years coaching 400m–800m competitive athletes",
+    image: "/images/coaches/coach-thompson.jpg",
+    bio: "Focused on endurance speed, pacing strategy, aerobic development, and tactical race execution.",
+    specialties: [
+      "400m / 800m development",
+      "Endurance speed systems",
+      "Race strategy & pacing",
+      "Aerobic conditioning",
+      "Competition preparation",
+      "Tactical execution",
+    ],
     philosophy:
-      "Speed is a skill—refined through repetition, precision, and intent.",
+      "Consistency and discipline build championship endurance athletes.",
   },
+
   {
-    name: "Strength & Conditioning Coach",
-    role: "Performance Strength Coach",
-    image: "/images/coaches/strength-coach.jpg",
-    experience:
-      "10+ years in athletic performance training across track & field",
-    certifications: "NSCA-CSCS, USA Weightlifting Certified",
-    specialties: "Explosive power, injury prevention, sprint-specific strength",
-    philosophy:
-      "Stronger athletes move better, recover faster, and compete longer.",
-  },
-  {
-    name: "Recovery Specialist",
-    role: "Physiotherapist / Recovery Coach",
-    image: "/images/coaches/recovery-coach.jpg",
-    experience:
-      "Sports rehabilitation experience working with competitive athletes",
-    certifications:
-      "Licensed Physiotherapy Practitioner, Sports Rehab Certification",
-    specialties: "Injury prevention, mobility work, recovery programming",
-    philosophy:
-      "Recovery is performance—treating the body is part of training.",
-  },
-  {
-    name: "Mental Performance Coach",
-    role: "Sport Psychology & Mindset Coach",
-    image: "/images/coaches/mental-coach.jpg",
-    experience: "Performance psychology coaching for youth and elite athletes",
-    certifications: "Certified Mental Performance Consultant (CMPC)",
-    specialties: "Confidence building, focus training, competition mindset",
-    philosophy: "Elite performance begins with elite thinking under pressure.",
+    name: "Coach Daniels",
+    role: "Mental Performance Coach",
+    qualifications: "Certified Mental Performance Consultant (CMPC)",
+    experience: "Youth & elite athlete mindset development specialist",
+    image: "/images/coaches/coach-daniels.jpg",
+    bio: "Specializes in confidence building, focus training, competition mindset, and emotional resilience.",
+    specialties: [
+      "Confidence development",
+      "Competition mindset training",
+      "Mental resilience systems",
+      "Focus under pressure",
+      "Athlete accountability",
+      "Leadership development",
+    ],
+    philosophy: "Elite performance starts with elite thinking under pressure.",
   },
 ];
 
+/* =========================
+   PAGE
+========================= */
+
 export default function CoachesPage() {
   return (
-    <main className="min-h-screen bg-[#080808] text-white overflow-hidden">
-      {/* HERO */}
-      <section className="relative pt-32 pb-20 px-6 text-center">
-        <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-[700px] h-[700px] bg-cyan-400/10 blur-3xl rounded-full" />
-          <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-pink-500/10 blur-3xl rounded-full" />
-        </div>
+    <main className="min-h-screen bg-[#050505] text-white overflow-hidden">
+      {/* GLOBAL BACKGROUND */}
+      <div className="fixed inset-0 pointer-events-none">
+        <div className="absolute top-[-10%] left-1/2 -translate-x-1/2 w-[900px] h-[900px] bg-cyan-400/10 blur-[180px] rounded-full" />
+        <div className="absolute bottom-[-15%] right-[10%] w-[700px] h-[700px] bg-pink-500/10 blur-[160px] rounded-full" />
+      </div>
 
+      {/* =========================
+          HERO — COACH KAI SELVON
+      ========================= */}
+      <section className="relative pt-36 pb-24 px-6">
         <motion.div
           variants={fadeUp}
           initial="hidden"
           animate="visible"
-          className="relative max-w-4xl mx-auto"
+          className="max-w-7xl mx-auto grid lg:grid-cols-[1.1fr_0.9fr] gap-12 items-center"
         >
-          <p className="text-cyan-400 text-xs tracking-[0.25em] uppercase font-semibold mb-4">
-            Coaching Staff
-          </p>
+          {/* LEFT */}
+          <div>
+            <p className="text-cyan-400 text-xs tracking-[0.3em] uppercase font-semibold mb-6">
+              Head Sprint Coach — A1 Vertex Athletics
+            </p>
 
-          <h1 className="text-4xl md:text-6xl font-black leading-tight">
-            Elite Coaching System.
-            <span className="block text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-pink-400 to-yellow-300">
-              Built on Credibility.
-            </span>
-          </h1>
+            <h1 className="text-5xl md:text-7xl font-black leading-[0.95]">
+              Coach Kai
+              <span className="block text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-white to-pink-400">
+                Selvon
+              </span>
+            </h1>
 
-          <p className="text-white/60 mt-6 max-w-2xl mx-auto">
-            A structured performance team covering every pillar of athlete
-            development: speed, strength, recovery, and mindset.
-          </p>
+            <p className="text-white/70 mt-8 text-lg max-w-2xl">
+              International-level sprint coach and Three-Time Olympian
+              representing Trinidad & Tobago, bringing elite sprint systems,
+              discipline-based development, and world-class athlete experience
+              to A1 Vertex Athletics.
+            </p>
+
+            {/* HIGHLIGHTS */}
+            <div className="grid md:grid-cols-2 gap-2 mt-10 text-sm text-white/70">
+              {KAI_HIGHLIGHTS.map((h) => (
+                <p key={h}>• {h}</p>
+              ))}
+            </div>
+
+            {/* FOCUS */}
+            <div className="mt-10">
+              <h3 className="text-cyan-400 text-xs uppercase tracking-[0.25em] mb-3">
+                Areas of Focus
+              </h3>
+              <div className="grid md:grid-cols-2 gap-2 text-white/70 text-sm">
+                {KAI_FOCUS.map((f) => (
+                  <p key={f}>• {f}</p>
+                ))}
+              </div>
+            </div>
+
+            {/* PERSONAL BESTS */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mt-12">
+              {KAI_PERSONAL_BESTS.map((p) => (
+                <div
+                  key={p.event}
+                  className="p-4 rounded-2xl border border-white/10 bg-white/[0.03]"
+                >
+                  <p className="text-white/40 text-xs uppercase">{p.event}</p>
+                  <p className="text-2xl font-black mt-2">{p.mark}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* RIGHT IMAGE */}
+          <div className="relative h-[520px] rounded-[2rem] overflow-hidden border border-white/10">
+            <Image
+              src="/images/coaches/coachkai.jpeg"
+              alt="Coach Kai Selvon"
+              fill
+              className="object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-transparent" />
+          </div>
         </motion.div>
       </section>
 
-      {/* COACH GRID */}
-      <section className="px-6 pb-28">
-        <div className="max-w-6xl mx-auto grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {/* =========================
+          OTHER COACHES
+      ========================= */}
+      <section className="px-6 pb-32">
+        <div className="max-w-7xl mx-auto space-y-10">
+          <motion.div
+            variants={fadeUp}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            className="text-center"
+          >
+            <h2 className="text-5xl font-black">Complete Performance Staff</h2>
+            <p className="text-white/60 mt-4 max-w-2xl mx-auto">
+              Strength. Speed. Mindset. Development systems built for elite
+              athlete progression.
+            </p>
+          </motion.div>
+
           {COACHES.map((coach, i) => (
             <motion.div
               key={coach.name}
               variants={fadeUp}
               initial="hidden"
-              animate="visible"
-              transition={{ delay: i * 0.12 }}
-              className="group relative rounded-2xl overflow-hidden border border-white/10 bg-white/[0.03] backdrop-blur-xl"
+              whileInView="visible"
+              viewport={{ once: true }}
+              custom={i}
+              className="grid lg:grid-cols-[420px_1fr] rounded-[2rem] overflow-hidden border border-white/10 bg-white/[0.03]"
             >
               {/* IMAGE */}
-              <div className="relative h-80 w-full overflow-hidden">
+              <div className="relative h-[420px]">
                 <Image
                   src={coach.image}
                   alt={coach.name}
                   fill
-                  className="object-cover group-hover:scale-105 transition-transform duration-500"
+                  className="object-cover"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent" />
               </div>
 
               {/* CONTENT */}
-              <div className="p-6 space-y-3">
-                <h2 className="text-xl font-black">{coach.name}</h2>
+              <div className="p-10">
+                <h3 className="text-3xl font-black">{coach.name}</h3>
 
-                <p className="text-cyan-400 text-xs uppercase tracking-[0.2em] font-semibold">
+                <p className="text-cyan-400 text-xs uppercase tracking-[0.2em] mt-2">
                   {coach.role}
                 </p>
 
-                <p className="text-white/60 text-sm">
-                  <span className="text-white/80 font-semibold">
-                    Experience:
-                  </span>{" "}
-                  {coach.experience}
+                <p className="text-white/50 text-xs mt-1">
+                  {coach.qualifications}
                 </p>
 
-                <p className="text-white/60 text-sm">
-                  <span className="text-white/80 font-semibold">
-                    Certifications:
-                  </span>{" "}
-                  {coach.certifications}
-                </p>
+                <p className="text-white/60 mt-6">{coach.bio}</p>
 
-                <p className="text-white/60 text-sm">
-                  <span className="text-white/80 font-semibold">
-                    Specialties:
-                  </span>{" "}
-                  {coach.specialties}
-                </p>
+                <div className="grid md:grid-cols-2 gap-2 mt-8 text-white/70 text-sm">
+                  {coach.specialties.map((s) => (
+                    <p key={s}>• {s}</p>
+                  ))}
+                </div>
 
-                <p className="text-white/70 text-sm italic border-t border-white/10 pt-3">
+                <p className="mt-8 text-white/80 italic">
                   “{coach.philosophy}”
                 </p>
               </div>
             </motion.div>
           ))}
         </div>
-      </section>
-
-      {/* CTA */}
-      <section className="px-6 pb-28 text-center">
-        <motion.div
-          variants={fadeUp}
-          initial="hidden"
-          animate="visible"
-          className="max-w-3xl mx-auto"
-        >
-          <h2 className="text-3xl md:text-4xl font-black">
-            Train With a Proven System
-          </h2>
-
-          <p className="text-white/60 mt-4">
-            Every athlete is developed through structured coaching, measurable
-            progression, and full-performance support.
-          </p>
-
-          <motion.a
-            href="/registration"
-            whileHover={{ scale: 1.04 }}
-            whileTap={{ scale: 0.97 }}
-            className="inline-flex mt-8 items-center gap-2 px-8 py-3.5 rounded-full bg-gradient-to-r from-cyan-400 to-pink-400 text-black font-black text-sm shadow-[0_0_30px_rgba(34,211,238,0.25)]"
-          >
-            Get Started
-            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-              <path
-                d="M2 7H12M8 3L12 7L8 11"
-                stroke="currentColor"
-                strokeWidth="1.8"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </motion.a>
-        </motion.div>
       </section>
     </main>
   );

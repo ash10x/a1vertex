@@ -78,7 +78,7 @@ export default function CoachesSection() {
             playsInline
             className="w-full h-full object-cover opacity-20 scale-[1.05]"
           >
-            <source src="/video/main.mp4" type="video/mp4" />
+            <source src="/video/main2.mp4" type="video/mp4" />
           </video>
         </motion.div>
 
