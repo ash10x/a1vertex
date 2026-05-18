@@ -88,7 +88,7 @@ export default function StatsStorySection() {
             playsInline
             className="w-full h-full object-cover opacity-25 scale-[1.05]"
           >
-            <source src="/video/hero2.mp4" type="video/mp4" />
+            <source src="/video/main.mp4" type="video/mp4" />
           </video>
         </motion.div>
 
