@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import { usePathname } from "next/navigation";
 import {
   motion,
@@ -11,7 +11,7 @@ import {
   useReducedMotion,
 } from "framer-motion";
 
-const NAV_LINKS = [
+const NAV_ITEMS = [
   { href: "/", label: "Home" },
   { href: "/coaches", label: "Coaches" },
   { href: "/team", label: "Team" },
@@ -23,259 +23,164 @@ const NAV_LINKS = [
   { href: "/contact", label: "Contact" },
 ];
 
-function NavItem({
-  href,
-  label,
-  active,
-}: {
-  href: string;
-  label: string;
-  active: boolean;
-}) {
-  return (
-    <motion.div
-      whileHover={{ y: -2, scale: 1.03 }}
-      whileTap={{ scale: 0.97 }}
-      className="relative"
-    >
-      <Link
-        href={href}
-        aria-current={active ? "page" : undefined}
-        className={`
-          relative flex items-center justify-center
-          px-5 py-2.5 rounded-full
-          text-sm font-semibold tracking-wider
-          transition-all duration-300
-          overflow-hidden
-          focus-visible:outline-none
-          focus-visible:ring-2
-          focus-visible:ring-cyan-400/70
-          focus-visible:ring-offset-2
-          focus-visible:ring-offset-black
-          ${
-            active
-              ? "text-white"
-              : "text-white/65 hover:text-white hover:bg-white/[0.045]"
-          }
-        `}
-      >
-        {active && (
-          <motion.div
-            layoutId="active-pill"
-            className="absolute inset-0 rounded-full bg-white/10 border border-cyan-400/10 shadow-[0_0_30px_rgba(34,211,238,0.18)]"
-            transition={{
-              type: "spring",
-              stiffness: 380,
-              damping: 30,
-            }}
-          />
-        )}
-
-        <span className="relative z-10">{label}</span>
-      </Link>
-    </motion.div>
-  );
-}
-
-function MobileNavItem({
-  href,
-  label,
-  active,
-  index,
-  onClick,
-  reducedMotion,
-}: {
-  href: string;
-  label: string;
-  active: boolean;
-  index: number;
-  onClick: () => void;
-  reducedMotion: boolean;
-}) {
-  return (
-    <motion.div
-      initial={reducedMotion ? { opacity: 0 } : { opacity: 0, x: 24 }}
-      animate={reducedMotion ? { opacity: 1 } : { opacity: 1, x: 0 }}
-      transition={{ delay: index * 0.05 }}
-    >
-      <Link
-        href={href}
-        onClick={onClick}
-        aria-current={active ? "page" : undefined}
-        className={`
-          flex items-center
-          px-5 py-4 rounded-2xl
-          text-base font-semibold
-          transition-all duration-300
-          border
-          focus-visible:outline-none
-          focus-visible:ring-2
-          focus-visible:ring-cyan-400/70
-          focus-visible:ring-offset-2
-          focus-visible:ring-offset-black
-          ${
-            active
-              ? "bg-cyan-400/10 text-cyan-400 border-cyan-400/20"
-              : "text-white/70 border-transparent hover:text-white hover:bg-white/[0.045]"
-          }
-        `}
-      >
-        {label}
-
-        {active && (
-          <motion.span
-            layoutId="mobile-active-dot"
-            className="ml-auto w-2 h-2 rounded-full bg-cyan-400"
-          />
-        )}
-      </Link>
-    </motion.div>
-  );
-}
-
 export default function Navigation() {
   const pathname = usePathname();
-  const prefersReducedMotion = useReducedMotion() ?? false;
+  const reduceMotion = useReducedMotion();
 
-  const [mobileOpen, setMobileOpen] = useState(false);
+  const { scrollYProgress } = useScroll();
+
+  const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [hidden, setHidden] = useState(false);
 
-  const lastYRef = useRef(0);
-  const { scrollYProgress } = useScroll();
+  const lastScrollY = useRef(0);
 
-  const closeMenu = useCallback(() => {
-    setMobileOpen(false);
-  }, []);
-
-  const isActiveRoute = useCallback(
-    (href: string) => {
-      return href === "/" ? pathname === "/" : pathname.startsWith(href);
-    },
+  const isActive = useCallback(
+    (href: string) =>
+      href === "/" ? pathname === "/" : pathname.startsWith(href),
     [pathname],
   );
 
   useEffect(() => {
     let ticking = false;
 
-    const updateScroll = () => {
-      const currentY = window.scrollY;
+    const handleScroll = () => {
+      const y = window.scrollY;
 
-      setScrolled(currentY > 40);
-
-      if (currentY > lastYRef.current && currentY > 120) {
-        setHidden(true);
-      } else {
-        setHidden(false);
-      }
-
-      lastYRef.current = currentY;
-      ticking = false;
-    };
-
-    const onScroll = () => {
       if (!ticking) {
-        window.requestAnimationFrame(updateScroll);
+        window.requestAnimationFrame(() => {
+          setScrolled(y > 30);
+
+          setHidden(y > lastScrollY.current && y > 120);
+
+          lastScrollY.current = y;
+          ticking = false;
+        });
+
         ticking = true;
       }
     };
 
-    window.addEventListener("scroll", onScroll, { passive: true });
-
-    return () => window.removeEventListener("scroll", onScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   useEffect(() => {
-    const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setMobileOpen(false);
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setOpen(false);
     };
 
-    window.addEventListener("keydown", handleEscape);
-    return () => window.removeEventListener("keydown", handleEscape);
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
   }, []);
 
   useEffect(() => {
-    setMobileOpen(false);
-  }, [pathname]);
-
-  useEffect(() => {
-    document.body.style.overflow = mobileOpen ? "hidden" : "";
+    document.body.style.overflow = open ? "hidden" : "";
     return () => {
       document.body.style.overflow = "";
     };
-  }, [mobileOpen]);
+  }, [open]);
+
+  useEffect(() => {
+    setOpen(false);
+  }, [pathname]);
 
   return (
     <>
+      {/* Scroll progress */}
       <motion.div
         className="fixed top-0 left-0 right-0 z-[70] h-[2px] bg-cyan-400 origin-left"
         style={{ scaleX: scrollYProgress }}
       />
 
+      {/* NAVBAR */}
       <motion.nav
-        initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: -16 }}
+        initial={{ opacity: 0, y: -20 }}
         animate={{
           opacity: 1,
-          y: hidden ? -120 : 0,
+          y: hidden ? -110 : 0,
         }}
-        transition={{ duration: 0.45, ease: [0.25, 0.1, 0.25, 1] }}
+        transition={{
+          duration: 0.4,
+          ease: "easeOut",
+        }}
         className={`
           fixed top-[2px] left-0 right-0 z-50
-          transition-all duration-500
-          relative overflow-hidden
-          before:absolute before:inset-x-0 before:bottom-0 before:h-px
-          before:bg-gradient-to-r before:from-transparent before:via-cyan-400/40 before:to-transparent
+          backdrop-blur-2xl
+          border-b
+          transition-all duration-300
           ${
             scrolled
-              ? "bg-black/70 backdrop-blur-3xl border-b border-white/[0.06]"
-              : "bg-black/35 backdrop-blur-2xl border-b border-white/[0.04]"
+              ? "bg-black/70 border-white/10"
+              : "bg-black/30 border-white/5"
           }
         `}
       >
-        <div className="relative max-w-[1440px] mx-auto px-5 sm:px-8 h-20 flex items-center justify-between gap-6">
-          <motion.div
-            whileHover={{ scale: 1.03, y: -1 }}
-            whileTap={{ scale: 0.97 }}
-          >
-            <Link href="/" className="flex items-center gap-2 rounded-xl">
-              <Image
-                src="/logo/logo.png"
-                alt="A1 Vertex"
-                width={75}
-                height={75}
-                priority
-              />
-            </Link>
-          </motion.div>
+        <div className="max-w-[1440px] mx-auto px-5 sm:px-8 h-20 flex items-center justify-between">
+          {/* Logo */}
+          <Link href="/" className="flex items-center">
+            <Image
+              src="/logo/logo.png"
+              alt="Logo"
+              width={70}
+              height={70}
+              priority
+            />
+          </Link>
 
-          <div className="hidden md:flex items-center gap-2 xl:gap-3">
-            {NAV_LINKS.map((link) => (
-              <NavItem
-                key={link.href}
-                href={link.href}
-                label={link.label}
-                active={isActiveRoute(link.href)}
-              />
-            ))}
+          {/* Desktop Nav */}
+          <div className="hidden md:flex items-center gap-2">
+            {NAV_ITEMS.map((item) => {
+              const active = isActive(item.href);
+
+              return (
+                <motion.div
+                  key={item.href}
+                  whileHover={{ y: -2, scale: 1.03 }}
+                  whileTap={{ scale: 0.97 }}
+                  className="relative"
+                >
+                  <Link
+                    href={item.href}
+                    className={`
+                      relative px-5 py-2.5 rounded-full text-sm font-semibold
+                      transition-all duration-300
+                      ${
+                        active ? "text-white" : "text-white/60 hover:text-white"
+                      }
+                    `}
+                  >
+                    {active && (
+                      <motion.span
+                        layoutId="nav-pill"
+                        className="absolute inset-0 rounded-full bg-white/10 border border-cyan-400/10 shadow-[0_0_25px_rgba(34,211,238,0.15)]"
+                        transition={{
+                          type: "spring",
+                          stiffness: 400,
+                          damping: 30,
+                        }}
+                      />
+                    )}
+
+                    <span className="relative z-10">{item.label}</span>
+                  </Link>
+                </motion.div>
+              );
+            })}
           </div>
 
+          {/* Actions */}
           <div className="flex items-center gap-3">
-            <motion.div
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.96 }}
-              className="hidden md:block"
+            <Link
+              href="/registration"
+              className="hidden md:flex px-6 py-2.5 rounded-full bg-cyan-400 text-black font-bold text-sm hover:scale-105 transition"
             >
-              <Link
-                href="/registration"
-                className="px-6 py-2.5 rounded-full bg-cyan-400 text-black font-black text-sm"
-              >
-                Register Now
-              </Link>
-            </motion.div>
+              Register
+            </Link>
 
             <button
-              onClick={() => setMobileOpen((v) => !v)}
-              className="md:hidden w-11 h-11 flex items-center justify-center"
+              onClick={() => setOpen((v) => !v)}
+              className="md:hidden w-11 h-11 flex items-center justify-center text-white"
             >
               ☰
             </button>
@@ -283,12 +188,63 @@ export default function Navigation() {
         </div>
       </motion.nav>
 
+      {/* MOBILE OVERLAY */}
       <AnimatePresence>
-        {mobileOpen && (
+        {open && (
           <motion.div
             className="fixed inset-0 z-50 bg-black/80 md:hidden"
-            onClick={closeMenu}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setOpen(false)}
           />
+        )}
+      </AnimatePresence>
+
+      {/* MOBILE MENU (clean foundation for next upgrade) */}
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            className="fixed top-0 right-0 w-[85%] max-w-sm h-full z-50 bg-black/95 backdrop-blur-2xl border-l border-white/10 md:hidden p-6"
+            initial={{ x: 300, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            exit={{ x: 300, opacity: 0 }}
+            transition={{ duration: 0.35, ease: "easeOut" }}
+          >
+            <div className="flex flex-col gap-3 mt-10">
+              {NAV_ITEMS.map((item, i) => {
+                const active = isActive(item.href);
+
+                return (
+                  <motion.div
+                    key={item.href}
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{
+                      opacity: 1,
+                      x: 0,
+                      transition: { delay: i * 0.04 },
+                    }}
+                  >
+                    <Link
+                      href={item.href}
+                      onClick={() => setOpen(false)}
+                      className={`
+                        block px-5 py-4 rounded-2xl text-base font-semibold
+                        transition
+                        ${
+                          active
+                            ? "bg-cyan-400/10 text-cyan-400 border border-cyan-400/20"
+                            : "text-white/70 hover:text-white hover:bg-white/5"
+                        }
+                      `}
+                    >
+                      {item.label}
+                    </Link>
+                  </motion.div>
+                );
+              })}
+            </div>
+          </motion.div>
         )}
       </AnimatePresence>
     </>
