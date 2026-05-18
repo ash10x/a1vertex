@@ -8,6 +8,7 @@ import {
   useTransform,
   useSpring,
   useReducedMotion,
+  Variants,
 } from "framer-motion";
 
 // ── Stat ticker data ────────────────────────────────────────────────────────
@@ -19,9 +20,9 @@ const STATS = [
 ];
 
 // ── Stagger helpers ──────────────────────────────────────────────────────────
-const fadeUp = {
+const fadeUp: Variants = {
   hidden: { opacity: 0, y: 28 },
-  visible: (i = 0) => ({
+  visible: (i: number = 0) => ({
     opacity: 1,
     y: 0,
     transition: {
