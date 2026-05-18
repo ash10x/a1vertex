@@ -1,18 +1,18 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { cubicBezier } from "framer-motion";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 20 },
-  visible: (i = 0) => ({
+  visible: {
     opacity: 1,
     y: 0,
     transition: {
       duration: 0.6,
-      ease: [0.22, 1, 0.36, 1],
-      delay: i * 0.08,
+      ease: cubicBezier(0.22, 1, 0.36, 1),
     },
-  }),
+  },
 };
 
 export default function Footer() {
@@ -34,7 +34,7 @@ export default function Footer() {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.4 }}
-          custom={0}
+          transition={{ delay: 0 * 0.08 }}
         >
           <h2 className="text-xl font-black tracking-tight">
             A1 <span className="text-cyan-400">Vertex</span>
@@ -56,7 +56,7 @@ export default function Footer() {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.4 }}
-          custom={1}
+          transition={{ delay: 1 * 0.08 }}
         >
           <h3 className="text-xs uppercase tracking-[0.25em] text-cyan-400 font-semibold mb-4">
             Contact
@@ -82,7 +82,7 @@ export default function Footer() {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.4 }}
-          custom={2}
+          transition={{ delay: 2 * 0.08 }}
         >
           <h3 className="text-xs uppercase tracking-[0.25em] text-pink-400 font-semibold mb-4">
             Social
@@ -90,22 +90,22 @@ export default function Footer() {
 
           <ul className="space-y-3 text-sm text-white/60">
             <li>
-              <a className="hover:text-white transition-colors" href="#">
+              <a className="hover:text-white" href="#">
                 Instagram
               </a>
             </li>
             <li>
-              <a className="hover:text-white transition-colors" href="#">
+              <a className="hover:text-white" href="#">
                 TikTok
               </a>
             </li>
             <li>
-              <a className="hover:text-white transition-colors" href="#">
+              <a className="hover:text-white" href="#">
                 YouTube
               </a>
             </li>
             <li>
-              <a className="hover:text-white transition-colors" href="#">
+              <a className="hover:text-white" href="#">
                 Twitter / X
               </a>
             </li>
@@ -118,7 +118,7 @@ export default function Footer() {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.4 }}
-          custom={3}
+          transition={{ delay: 3 * 0.08 }}
         >
           <h3 className="text-xs uppercase tracking-[0.25em] text-yellow-300 font-semibold mb-4">
             Policies
@@ -126,22 +126,22 @@ export default function Footer() {
 
           <ul className="space-y-3 text-sm text-white/60">
             <li>
-              <a className="hover:text-white transition-colors" href="/privacy">
+              <a className="hover:text-white" href="/privacy">
                 Privacy Policy
               </a>
             </li>
             <li>
-              <a className="hover:text-white transition-colors" href="/terms">
+              <a className="hover:text-white" href="/terms">
                 Terms of Service
               </a>
             </li>
             <li>
-              <a className="hover:text-white transition-colors" href="/waiver">
+              <a className="hover:text-white" href="/waiver">
                 Athlete Waiver
               </a>
             </li>
             <li>
-              <a className="hover:text-white transition-colors" href="/contact">
+              <a className="hover:text-white" href="/contact">
                 Contact Support
               </a>
             </li>
@@ -157,13 +157,13 @@ export default function Footer() {
           </p>
 
           <div className="flex gap-6 text-xs text-white/40">
-            <a className="hover:text-white transition-colors" href="/privacy">
+            <a className="hover:text-white" href="/privacy">
               Privacy
             </a>
-            <a className="hover:text-white transition-colors" href="/terms">
+            <a className="hover:text-white" href="/terms">
               Terms
             </a>
-            <a className="hover:text-white transition-colors" href="/contact">
+            <a className="hover:text-white" href="/contact">
               Contact
             </a>
           </div>
