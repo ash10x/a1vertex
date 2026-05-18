@@ -1,17 +1,25 @@
 "use client";
 
-import { motion, Variants } from "framer-motion";
+import {
+  motion,
+  Variants,
+  useScroll,
+  useTransform,
+  useSpring,
+  useReducedMotion,
+} from "framer-motion";
+import { useRef } from "react";
 import Image from "next/image";
 
 const fadeUp: Variants = {
-  hidden: { opacity: 0, y: 26 },
+  hidden: { opacity: 0, y: 28 },
   visible: (i: number = 0) => ({
     opacity: 1,
     y: 0,
     transition: {
-      duration: 0.7,
-      ease: [0.22, 1, 0.36, 1] as const,
-      delay: i * 0.12,
+      duration: 0.75,
+      ease: [0.22, 1, 0.36, 1],
+      delay: i * 0.1,
     },
   }),
 };
@@ -49,99 +57,121 @@ const EVENTS = [
 ];
 
 export default function StatsStorySection() {
+  const ref = useRef<HTMLElement | null>(null);
+  const prefersReducedMotion = useReducedMotion();
+
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start end", "end start"],
+  });
+
+  const smooth = useSpring(scrollYProgress, {
+    stiffness: 80,
+    damping: 25,
+  });
+
+  const bgY = useTransform(smooth, [0, 1], ["0%", "12%"]);
+
   return (
     <section
-      className="relative py-24 px-6 bg-[#080808] overflow-hidden"
+      ref={ref}
+      className="relative py-28 px-6 bg-[#080808] overflow-hidden text-white"
       aria-label="About A1 Vertex Athletics"
     >
-      {/* Background accents */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute -top-32 left-1/4 w-[520px] h-[520px] bg-cyan-400/10 blur-3xl rounded-full" />
-        <div className="absolute bottom-0 right-1/4 w-[460px] h-[460px] bg-pink-500/10 blur-3xl rounded-full" />
+      {/* ───────────────── CINEMATIC BACKGROUND LAYER ───────────────── */}
+      <div className="absolute inset-0 z-0">
+        <motion.div style={{ y: bgY }} className="absolute inset-0">
+          <video
+            autoPlay
+            muted
+            loop
+            playsInline
+            className="w-full h-full object-cover opacity-25 scale-[1.05]"
+          >
+            <source src="/video/hero2.mp4" type="video/mp4" />
+          </video>
+        </motion.div>
+
+        <div className="absolute inset-0 bg-black/70" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(34,211,238,0.10),transparent_60%)]" />
       </div>
 
-      <div className="relative max-w-6xl mx-auto grid lg:grid-cols-2 gap-10">
+      {/* ───────────────── MAIN GRID ───────────────── */}
+      <div className="relative z-10 max-w-6xl mx-auto grid lg:grid-cols-2 gap-10">
         {/* LEFT COLUMN */}
         <div className="flex flex-col gap-6">
+          {/* STORY */}
           <motion.div
             variants={fadeUp}
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, amount: 0.4 }}
-            custom={0 as number}
+            custom={0}
             className="p-8 rounded-2xl border border-white/10 bg-white/[0.03] backdrop-blur-xl"
           >
-            <h2 className="text-cyan-400 text-xs tracking-[0.25em] uppercase font-semibold mb-4">
+            <p className="text-cyan-400 text-xs tracking-[0.3em] uppercase mb-4">
               Our Story
-            </h2>
+            </p>
 
-            <h3 className="text-white text-2xl md:text-3xl font-black mb-4 leading-tight">
+            <h3 className="text-3xl font-black mb-4">
               Built for Athletes Who Want More
             </h3>
 
             <p className="text-white/60 leading-relaxed">
-              A1 Vertex Athletics was created to build a structured
-              high-performance environment where athletes are developed with
-              purpose, discipline, and long-term vision. What began as a small
-              training group has evolved into a performance system focused on
-              real athletic growth and measurable results.
+              A1 Vertex Athletics is a structured high-performance system built
+              for measurable athletic development, discipline, and long-term
+              progression.
             </p>
           </motion.div>
 
+          {/* MISSION */}
           <motion.div
             variants={fadeUp}
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, amount: 0.4 }}
-            custom={1 as number}
+            custom={1}
             className="p-8 rounded-2xl border border-white/10 bg-white/[0.03] backdrop-blur-xl"
           >
-            <h2 className="text-yellow-300 text-xs tracking-[0.25em] uppercase font-semibold mb-4">
-              Mission Statement
-            </h2>
+            <p className="text-yellow-300 text-xs tracking-[0.3em] uppercase mb-4">
+              Mission
+            </p>
 
-            <h3 className="text-white text-2xl md:text-3xl font-black mb-4">
+            <h3 className="text-3xl font-black mb-4">
               Develop. Elevate. Sustain Excellence.
             </h3>
 
-            <p className="text-white/60 leading-relaxed">
-              Our mission is to maximize every athlete’s potential through
-              structured coaching, accountability, and individualized training
-              systems designed for long-term success.
+            <p className="text-white/60">
+              We maximize athlete potential through structured coaching,
+              accountability, and performance systems.
             </p>
           </motion.div>
 
+          {/* PRINCIPLES */}
           <motion.div
             variants={fadeUp}
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, amount: 0.4 }}
-            custom={2 as number}
+            custom={2}
             className="p-8 rounded-2xl border border-white/10 bg-white/[0.03] backdrop-blur-xl"
           >
-            <h2 className="text-pink-400 text-xs tracking-[0.25em] uppercase font-semibold mb-4">
+            <p className="text-pink-400 text-xs tracking-[0.3em] uppercase mb-4">
               Core Principles
-            </h2>
+            </p>
 
             <div className="space-y-4">
               <div>
-                <h4 className="text-white font-bold">
-                  Individualized Athlete Development
-                </h4>
-                <p className="text-white/60 text-sm leading-relaxed">
-                  Every athlete receives tailored programming based on
-                  strengths, weaknesses, and performance goals.
+                <h4 className="font-bold">Individualized Development</h4>
+                <p className="text-white/60 text-sm">
+                  Every athlete receives tailored programming.
                 </p>
               </div>
 
               <div>
-                <h4 className="text-white font-bold">
-                  No Favoritism / Equal Opportunity
-                </h4>
-                <p className="text-white/60 text-sm leading-relaxed">
-                  Opportunity is earned through effort and consistency—every
-                  athlete receives equal coaching attention and development
-                  focus.
+                <h4 className="font-bold">Equal Opportunity System</h4>
+                <p className="text-white/60 text-sm">
+                  Progress is earned through consistency and effort.
                 </p>
               </div>
             </div>
@@ -150,71 +180,71 @@ export default function StatsStorySection() {
 
         {/* RIGHT COLUMN */}
         <div className="flex flex-col gap-6">
+          {/* WHY */}
           <motion.div
             variants={fadeUp}
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, amount: 0.4 }}
-            custom={3 as number}
+            custom={3}
             className="p-8 rounded-2xl border border-white/10 bg-white/[0.03] backdrop-blur-xl"
           >
-            <h2 className="text-cyan-400 text-xs tracking-[0.25em] uppercase font-semibold mb-4">
-              Why A1 Vertex Athletics?
-            </h2>
+            <p className="text-cyan-400 text-xs tracking-[0.3em] uppercase mb-4">
+              Why A1 Vertex
+            </p>
 
-            <h3 className="text-white text-2xl md:text-3xl font-black mb-6">
-              Complete Athlete Development System
+            <h3 className="text-3xl font-black mb-6">
+              Complete Development System
             </h3>
 
-            <div className="grid gap-3">
+            <div className="space-y-3">
               {WHY_POINTS.map((item) => (
                 <div
                   key={item}
-                  className="flex items-start gap-3 p-4 rounded-xl border border-white/10 bg-white/[0.02]"
+                  className="flex items-center gap-3 p-4 rounded-xl border border-white/10 bg-white/[0.02]"
                 >
-                  <span className="mt-1 w-2 h-2 rounded-full bg-cyan-400 shadow-[0_0_12px_rgba(34,211,238,0.6)]" />
+                  <span className="w-2 h-2 rounded-full bg-cyan-400 shadow-[0_0_12px_rgba(34,211,238,0.6)]" />
                   <span className="text-white/75 text-sm">{item}</span>
                 </div>
               ))}
             </div>
           </motion.div>
 
+          {/* EVENTS */}
           <motion.div
             variants={fadeUp}
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, amount: 0.4 }}
-            custom={4 as number}
+            custom={4}
             className="p-8 rounded-2xl border border-white/10 bg-white/[0.03] backdrop-blur-xl"
           >
-            <h2 className="text-yellow-300 text-xs tracking-[0.25em] uppercase font-semibold mb-4">
-              Events We Focus On
-            </h2>
+            <p className="text-yellow-300 text-xs tracking-[0.3em] uppercase mb-4">
+              Events
+            </p>
 
-            <h3 className="text-white text-2xl md:text-3xl font-black mb-6">
-              Sprint & Middle Distance Development
+            <h3 className="text-3xl font-black mb-6">
+              Sprint & Middle Distance Focus
             </h3>
 
             <div className="grid sm:grid-cols-2 gap-4">
               {EVENTS.map((event) => (
                 <div
                   key={event.title}
-                  className="group relative overflow-hidden rounded-2xl border border-white/10"
+                  className="group relative rounded-2xl overflow-hidden border border-white/10"
                 >
-                  <div className="relative h-32 w-full">
+                  <div className="relative h-32">
                     <Image
                       src={event.image}
                       alt={event.title}
                       fill
-                      className="object-cover group-hover:scale-105 transition-transform duration-500 opacity-80"
+                      className="object-cover opacity-80 group-hover:scale-105 transition-transform duration-500"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
+                    <div className="absolute inset-0 bg-black/60" />
                   </div>
 
                   <div className="p-4">
-                    <h4 className="text-white font-black text-lg">
-                      {event.title}
-                    </h4>
+                    <h4 className="font-black">{event.title}</h4>
                     <p className="text-white/60 text-sm">{event.desc}</p>
                   </div>
                 </div>
