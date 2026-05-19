@@ -87,7 +87,7 @@ export default function JoinPage() {
                   },
                   {
                     label: "Elite Performance Development Program",
-                    value: "$550",
+                    value: "$550/month",
                     desc: "Per athlete / billed monthly",
                   },
                   {
@@ -172,10 +172,10 @@ export default function JoinPage() {
 
                     <div className="rounded-2xl border border-white/10 bg-black/30 p-5">
                       <p className="text-white/50 text-xs uppercase tracking-[0.2em]">
-                        Monthly Athlete Tuition
+                        Elite Performance Development Program
                       </p>
 
-                      <h3 className="text-3xl font-black mt-2">$550</h3>
+                      <h3 className="text-3xl font-black mt-2">$550/month</h3>
 
                       <p className="text-white/60 text-sm mt-2">
                         Covers structured coaching, strength development,
