@@ -18,6 +18,9 @@ export const metadata: Metadata = {
   title: "A1 Vertex Athletics | Elite Track Club",
   description:
     "Join A1 Vertex Athletics, a premier track club dedicated to developing elite athletes through expert coaching, advanced training methods, and competitive excellence.",
+  icons: {
+    icon: "/logo/logo.png",
+  },
 };
 
 export default function RootLayout({
