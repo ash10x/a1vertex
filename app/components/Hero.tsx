@@ -2,6 +2,7 @@
 
 import { useRef } from "react";
 import Image from "next/image";
+import { getCldVideoUrl } from "next-cloudinary";
 import {
   motion,
   useScroll,
@@ -16,21 +17,20 @@ const sections = [
     desc: "Structured athlete development built on performance data, discipline, and progression science.",
     accent: "from-cyan-400 to-blue-500",
   },
-  // {
-  //   title: "Data-Driven Performance",
-  //   desc: "Every sprint, rep, and session is measured for measurable gains.",
-  //   accent: "from-pink-400 to-purple-500",
-  // },
-  // {
-  //   title: "Championship Mindset",
-  //   desc: "Mental conditioning for high-pressure execution and race dominance.",
-  //   accent: "from-yellow-300 to-orange-400",
-  // },
 ];
 
 export default function CinematicAppleLanding() {
   const ref = useRef<HTMLElement | null>(null);
   const prefersReducedMotion = useReducedMotion();
+
+  // ── Cloudinary Video URL ─────────────────────────────
+  const videoUrl = getCldVideoUrl({
+    src: "main_lrbgpc", // replace with your Cloudinary public ID
+    width: 1920,
+    height: 1080,
+    format: "auto",
+    quality: "auto",
+  });
 
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -43,8 +43,8 @@ export default function CinematicAppleLanding() {
   });
 
   return (
-    <main ref={ref} className="relative bg-black text-white overflow-hidden">
-      {/* ───────────────── GLOBAL CINEMATIC BACKGROUND VIDEO ───────────────── */}
+    <main ref={ref} className="relative overflow-hidden bg-black text-white">
+      {/* ───────────────── GLOBAL CINEMATIC VIDEO ───────────────── */}
       <div className="fixed inset-0 z-0 overflow-hidden">
         <video
           autoPlay
@@ -53,28 +53,27 @@ export default function CinematicAppleLanding() {
           playsInline
           preload="metadata"
           poster="/images/video-poster.jpg"
-          webkit-playsinline="true"
           className="absolute inset-0 h-full w-full object-cover"
         >
-          <source src="/video/main2.mp4" type="video/mp4" />
+          <source src={videoUrl} type="video/mp4" />
         </video>
 
-        {/* cinematic overlays */}
+        {/* overlays */}
         <div className="absolute inset-0 bg-black/60" />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(34,211,238,0.15),transparent_55%)]" />
         <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/60 to-black" />
       </div>
 
-      {/* ───────────────── HERO INTRO ───────────────── */}
-      <section className="relative h-screen flex items-center justify-center z-10">
+      {/* ───────────────── HERO ───────────────── */}
+      <section className="relative z-10 flex h-screen items-center justify-center">
         <motion.div
           style={{
             opacity: useTransform(smooth, [0, 0.1], [1, 0]),
             scale: useTransform(smooth, [0, 0.1], [1, 0.98]),
           }}
-          className="text-center max-w-4xl px-6"
+          className="max-w-4xl px-6 text-center"
         >
-          {/* ───────────────── LOGO HERO MARK ───────────────── */}
+          {/* logo */}
           <motion.div
             initial={{ opacity: 0, scale: 0.92 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -86,21 +85,27 @@ export default function CinematicAppleLanding() {
               opacity: useTransform(smooth, [0, 0.15], [1, 0]),
               scale: useTransform(smooth, [0, 0.15], [1, 0.96]),
             }}
-            className="mb-10 relative flex justify-center"
+            className="relative mb-10 flex justify-center"
           >
-            {/* glow aura */}
             <motion.div
               animate={
                 prefersReducedMotion
                   ? {}
-                  : { opacity: [0.25, 0.5, 0.25], scale: [1, 1.08, 1] }
+                  : {
+                      opacity: [0.25, 0.5, 0.25],
+                      scale: [1, 1.08, 1],
+                    }
               }
               transition={
                 prefersReducedMotion
                   ? undefined
-                  : { duration: 4, repeat: Infinity, ease: "easeInOut" }
+                  : {
+                      duration: 4,
+                      repeat: Infinity,
+                      ease: "easeInOut",
+                    }
               }
-              className="absolute inset-0 mx-auto w-[220px] h-[220px] bg-cyan-400/20 blur-3xl rounded-full"
+              className="absolute inset-0 mx-auto h-[220px] w-[220px] rounded-full bg-cyan-400/20 blur-3xl"
             />
 
             <Image
@@ -112,24 +117,26 @@ export default function CinematicAppleLanding() {
               className="relative z-10 drop-shadow-[0_0_40px_rgba(34,211,238,0.35)]"
             />
           </motion.div>
-          <p className="text-cyan-400 tracking-[0.3em] uppercase text-xs mb-6">
+
+          <p className="mb-6 text-xs uppercase tracking-[0.3em] text-cyan-400">
             A1 Vertex Athletics
           </p>
 
-          <h1 className="text-5xl md:text-7xl font-black leading-[0.9]">
+          <h1 className="text-5xl font-black leading-[0.9] md:text-7xl">
             Built for
-            <span className="block text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-pink-400 to-yellow-300">
+            <span className="block bg-gradient-to-r from-cyan-400 via-pink-400 to-yellow-300 bg-clip-text text-transparent">
               Elite Performance
             </span>
           </h1>
 
-          <p className="mt-8 text-white/60 text-lg max-w-xl mx-auto">
+          <p className="mx-auto mt-8 max-w-xl text-lg text-white/60">
             A performance system designed for serious athletes committed to
+            elite-level growth, discipline, and competitive excellence.
           </p>
         </motion.div>
       </section>
 
-      {/* ───────────────── STORY SECTIONS (APPLE STYLE) ───────────────── */}
+      {/* ───────────────── STORY SECTIONS ───────────────── */}
       <section className="relative z-10">
         {sections.map((s, i) => {
           const start = i * 0.25;
@@ -142,30 +149,22 @@ export default function CinematicAppleLanding() {
           return (
             <div
               key={s.title}
-              className="h-screen sticky top-0 flex items-center justify-center"
+              className="sticky top-0 flex h-screen items-center justify-center"
             >
-              {/* SECTION OVERLAY (video stays constant underneath) */}
               <motion.div
                 style={{ opacity }}
                 className="absolute inset-0 bg-black/40"
               />
 
-              {/* CONTENT */}
               <motion.div
                 style={{ opacity, y, scale }}
-                className="relative z-10 text-center max-w-3xl px-6"
+                className="relative z-10 max-w-3xl px-6 text-center"
               >
-                {/* <div
-                  className={`text-xs uppercase tracking-[0.3em] mb-6 bg-gradient-to-r ${s.accent} text-transparent bg-clip-text`}
-                >
-                  Performance Layer {i + 1}
-                </div> */}
-
-                <h2 className="text-4xl md:text-6xl font-black leading-tight">
+                <h2 className="text-4xl font-black leading-tight md:text-6xl">
                   {s.title}
                 </h2>
 
-                <p className="mt-6 text-white/60 text-lg leading-relaxed">
+                <p className="mt-6 text-lg leading-relaxed text-white/60">
                   {s.desc}
                 </p>
               </motion.div>
@@ -175,11 +174,11 @@ export default function CinematicAppleLanding() {
       </section>
 
       {/* ───────────────── FINAL CTA ───────────────── */}
-      <section className="relative h-screen flex items-center justify-center z-10 text-center px-6">
+      <section className="relative z-10 flex h-screen items-center justify-center px-6 text-center">
         <div className="max-w-3xl">
-          <h2 className="text-5xl md:text-6xl font-black leading-tight">
+          <h2 className="text-5xl font-black leading-tight md:text-6xl">
             Ready to
-            <span className="block text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-pink-400 to-yellow-300">
+            <span className="block bg-gradient-to-r from-cyan-400 via-pink-400 to-yellow-300 bg-clip-text text-transparent">
               Transform Performance?
             </span>
           </h2>
@@ -188,10 +187,10 @@ export default function CinematicAppleLanding() {
             Join an elite system designed for serious athletes.
           </p>
 
-          <div className="mt-10 flex gap-4 justify-center flex-wrap">
+          <div className="mt-10 flex flex-wrap justify-center gap-4">
             <a
               href="/registration"
-              className="px-8 py-3.5 rounded-full font-bold text-black text-sm"
+              className="rounded-full px-8 py-3.5 text-sm font-bold text-black transition-transform duration-300 hover:scale-105"
               style={{
                 background: "linear-gradient(90deg, #facc15, #f472b6)",
               }}
@@ -201,7 +200,7 @@ export default function CinematicAppleLanding() {
 
             <a
               href="/team"
-              className="px-8 py-3.5 rounded-full font-bold text-cyan-400 text-sm border border-cyan-400/40"
+              className="rounded-full border border-cyan-400/40 px-8 py-3.5 text-sm font-bold text-cyan-400 backdrop-blur-md transition-all duration-300 hover:border-cyan-400 hover:bg-cyan-400/10"
             >
               Meet Athletes
             </a>

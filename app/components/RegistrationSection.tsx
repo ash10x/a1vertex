@@ -10,9 +10,13 @@ import {
   useReducedMotion,
 } from "framer-motion";
 import { useState, useRef } from "react";
+import { getCldVideoUrl } from "next-cloudinary";
 
 const fadeUp: Variants = {
-  hidden: { opacity: 0, y: 28 },
+  hidden: {
+    opacity: 0,
+    y: 28,
+  },
   visible: (i: number = 0) => ({
     opacity: 1,
     y: 0,
@@ -37,6 +41,15 @@ export default function RegistrationSection() {
   const ref = useRef<HTMLElement | null>(null);
   const prefersReducedMotion = useReducedMotion();
 
+  // ───────────────── CLOUDINARY VIDEO ─────────────────
+  const videoUrl = getCldVideoUrl({
+    src: "main4_nahyyf", // replace with your Cloudinary public ID
+    width: 1920,
+    height: 1080,
+    format: "auto",
+    quality: "auto",
+  });
+
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start end", "end start"],
@@ -49,73 +62,148 @@ export default function RegistrationSection() {
 
   const bgY = useTransform(smooth, [0, 1], ["0%", "10%"]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    // safe placeholder (replace with API later)
+    // Replace with API integration later
     console.log("Registration submitted:", form);
   };
 
   return (
     <section
       ref={ref}
-      className="relative py-28 px-6 bg-[#080808] overflow-hidden text-white"
+      aria-label="Athlete Registration"
+      className="relative overflow-hidden bg-[#080808] px-6 py-28 text-white"
     >
       {/* ───────────────── CINEMATIC BACKGROUND ───────────────── */}
-      <div className="absolute inset-0 z-0">
+      <div className="absolute inset-0 z-0 overflow-hidden">
         <motion.div style={{ y: bgY }} className="absolute inset-0">
           <video
             autoPlay
             muted
             loop
             playsInline
-            className="w-full h-full object-cover opacity-20 scale-[1.05]"
+            preload="metadata"
+            poster="/images/video-poster.jpg"
+            className="h-full w-full scale-[1.05] object-cover opacity-20"
           >
-            <source src="/video/main4.mp4" type="video/mp4" />
+            <source src={videoUrl} type="video/mp4" />
           </video>
         </motion.div>
 
+        {/* overlays */}
         <div className="absolute inset-0 bg-black/75" />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(34,211,238,0.12),transparent_60%)]" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-black/40 to-black" />
       </div>
 
-      <div className="relative z-10 max-w-6xl mx-auto grid lg:grid-cols-2 gap-10">
+      {/* ───────────────── CONTENT ───────────────── */}
+      <div className="relative z-10 mx-auto grid max-w-6xl gap-10 lg:grid-cols-2">
         {/* ───────────────── LEFT PANEL ───────────────── */}
         <motion.div
           variants={fadeUp}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, amount: 0.4 }}
+          viewport={{ once: true, amount: 0.35 }}
           custom={0}
           className="flex flex-col gap-6"
         >
-          <div className="p-8 rounded-2xl border border-white/10 bg-white/[0.03] backdrop-blur-xl">
-            <p className="text-cyan-400 text-xs tracking-[0.3em] uppercase mb-4">
+          {/* intro */}
+          <motion.div
+            whileHover={
+              prefersReducedMotion
+                ? {}
+                : {
+                    y: -4,
+                  }
+            }
+            className="rounded-3xl border border-white/10 bg-white/[0.03] p-8 backdrop-blur-xl transition-all duration-500"
+          >
+            <p className="mb-4 text-xs uppercase tracking-[0.3em] text-cyan-400">
               Registration System
             </p>
 
-            <h3 className="text-3xl font-black mb-4">
+            <h3 className="mb-4 text-3xl font-black leading-tight">
               Join A1 Vertex Athletics
             </h3>
 
-            <p className="text-white/60 leading-relaxed">
+            <p className="leading-relaxed text-white/60">
               Submit your athlete details for structured evaluation and
-              placement within our performance system.
+              placement within our elite performance development system.
             </p>
-          </div>
+          </motion.div>
 
-          <div className="p-8 rounded-2xl border border-white/10 bg-white/[0.03] backdrop-blur-xl">
-            <p className="text-yellow-300 text-xs tracking-[0.3em] uppercase mb-4">
+          {/* process */}
+          <motion.div
+            whileHover={
+              prefersReducedMotion
+                ? {}
+                : {
+                    y: -4,
+                  }
+            }
+            className="rounded-3xl border border-white/10 bg-white/[0.03] p-8 backdrop-blur-xl transition-all duration-500"
+          >
+            <p className="mb-4 text-xs uppercase tracking-[0.3em] text-yellow-300">
               Evaluation Process
             </p>
 
-            <ul className="space-y-3 text-white/60 text-sm">
-              <li>• Performance testing & assessment</li>
-              <li>• Movement analysis</li>
-              <li>• Event grouping placement</li>
-              <li>• Monthly intake cycles</li>
+            <ul className="space-y-4 text-sm text-white/65">
+              {[
+                "Performance testing & assessment",
+                "Movement analysis",
+                "Event grouping placement",
+                "Monthly intake cycles",
+              ].map((item) => (
+                <li
+                  key={item}
+                  className="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.02] p-4"
+                >
+                  <span className="h-2 w-2 rounded-full bg-cyan-400 shadow-[0_0_12px_rgba(34,211,238,0.6)]" />
+
+                  <span>{item}</span>
+                </li>
+              ))}
             </ul>
-          </div>
+          </motion.div>
+
+          {/* pricing */}
+          <motion.div
+            whileHover={
+              prefersReducedMotion
+                ? {}
+                : {
+                    y: -4,
+                  }
+            }
+            className="rounded-3xl border border-cyan-400/20 bg-gradient-to-br from-cyan-400/[0.04] to-pink-400/[0.04] p-8 backdrop-blur-xl transition-all duration-500"
+          >
+            <p className="mb-4 text-xs uppercase tracking-[0.3em] text-pink-400">
+              Program Pricing
+            </p>
+
+            <div className="space-y-5">
+              <div>
+                <p className="text-sm uppercase tracking-[0.2em] text-white/40">
+                  First-Time Athlete Registration
+                </p>
+
+                <h4 className="mt-2 text-4xl font-black">$1,150</h4>
+              </div>
+
+              <div className="h-px w-full bg-white/10" />
+
+              <div>
+                <p className="text-sm uppercase tracking-[0.2em] text-white/40">
+                  Monthly Athlete Development
+                </p>
+
+                <h4 className="mt-2 text-3xl font-black">
+                  $550<span className="text-lg text-white/50"> / month</span>
+                </h4>
+              </div>
+            </div>
+          </motion.div>
         </motion.div>
 
         {/* ───────────────── FORM PANEL ───────────────── */}
@@ -123,72 +211,124 @@ export default function RegistrationSection() {
           variants={fadeUp}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, amount: 0.4 }}
+          viewport={{ once: true, amount: 0.35 }}
           custom={1}
-          className="p-8 rounded-2xl border border-white/10 bg-white/[0.03] backdrop-blur-xl"
+          className="rounded-3xl border border-white/10 bg-white/[0.03] p-8 backdrop-blur-xl"
         >
-          <p className="text-pink-400 text-xs tracking-[0.3em] uppercase mb-4">
+          <p className="mb-4 text-xs uppercase tracking-[0.3em] text-pink-400">
             Athlete Form
           </p>
 
-          <h3 className="text-2xl font-black mb-6">Start Your Registration</h3>
+          <h3 className="mb-2 text-3xl font-black">Start Your Registration</h3>
+
+          <p className="mb-8 text-sm leading-relaxed text-white/55">
+            Complete the athlete intake form below to begin your evaluation and
+            onboarding process.
+          </p>
 
           <form onSubmit={handleSubmit} className="space-y-4">
+            {/* name */}
             <input
               type="text"
               placeholder="Full Name"
               value={form.name}
-              onChange={(e) => setForm({ ...form, name: e.target.value })}
-              className="w-full px-4 py-3 rounded-xl bg-black/40 border border-white/10 text-white placeholder:text-white/30 outline-none focus:border-cyan-400/40"
+              required
+              onChange={(e) =>
+                setForm({
+                  ...form,
+                  name: e.target.value,
+                })
+              }
+              className="w-full rounded-2xl border border-white/10 bg-black/40 px-4 py-3 text-white outline-none transition-all duration-300 placeholder:text-white/30 focus:border-cyan-400/40 focus:bg-black/60"
             />
 
-            <div className="grid grid-cols-2 gap-4">
+            {/* age + event */}
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               <input
                 type="number"
                 placeholder="Age"
                 value={form.age}
-                onChange={(e) => setForm({ ...form, age: e.target.value })}
-                className="px-4 py-3 rounded-xl bg-black/40 border border-white/10 text-white placeholder:text-white/30 outline-none focus:border-cyan-400/40"
+                required
+                onChange={(e) =>
+                  setForm({
+                    ...form,
+                    age: e.target.value,
+                  })
+                }
+                className="rounded-2xl border border-white/10 bg-black/40 px-4 py-3 text-white outline-none transition-all duration-300 placeholder:text-white/30 focus:border-cyan-400/40 focus:bg-black/60"
               />
 
               <input
                 type="text"
-                placeholder="Event"
+                placeholder="Primary Event"
                 value={form.event}
-                onChange={(e) => setForm({ ...form, event: e.target.value })}
-                className="px-4 py-3 rounded-xl bg-black/40 border border-white/10 text-white placeholder:text-white/30 outline-none focus:border-cyan-400/40"
+                required
+                onChange={(e) =>
+                  setForm({
+                    ...form,
+                    event: e.target.value,
+                  })
+                }
+                className="rounded-2xl border border-white/10 bg-black/40 px-4 py-3 text-white outline-none transition-all duration-300 placeholder:text-white/30 focus:border-cyan-400/40 focus:bg-black/60"
               />
             </div>
 
+            {/* email */}
             <input
               type="email"
-              placeholder="Email"
+              placeholder="Email Address"
               value={form.email}
-              onChange={(e) => setForm({ ...form, email: e.target.value })}
-              className="w-full px-4 py-3 rounded-xl bg-black/40 border border-white/10 text-white placeholder:text-white/30 outline-none focus:border-cyan-400/40"
+              required
+              onChange={(e) =>
+                setForm({
+                  ...form,
+                  email: e.target.value,
+                })
+              }
+              className="w-full rounded-2xl border border-white/10 bg-black/40 px-4 py-3 text-white outline-none transition-all duration-300 placeholder:text-white/30 focus:border-cyan-400/40 focus:bg-black/60"
             />
 
+            {/* phone */}
             <input
               type="tel"
-              placeholder="Phone"
+              placeholder="Phone Number"
               value={form.phone}
-              onChange={(e) => setForm({ ...form, phone: e.target.value })}
-              className="w-full px-4 py-3 rounded-xl bg-black/40 border border-white/10 text-white placeholder:text-white/30 outline-none focus:border-cyan-400/40"
+              required
+              onChange={(e) =>
+                setForm({
+                  ...form,
+                  phone: e.target.value,
+                })
+              }
+              className="w-full rounded-2xl border border-white/10 bg-black/40 px-4 py-3 text-white outline-none transition-all duration-300 placeholder:text-white/30 focus:border-cyan-400/40 focus:bg-black/60"
             />
 
+            {/* experience */}
             <textarea
               placeholder="Athletic Experience"
               value={form.experience}
-              onChange={(e) => setForm({ ...form, experience: e.target.value })}
-              rows={4}
-              className="w-full px-4 py-3 rounded-xl bg-black/40 border border-white/10 text-white placeholder:text-white/30 outline-none focus:border-cyan-400/40"
+              rows={5}
+              onChange={(e) =>
+                setForm({
+                  ...form,
+                  experience: e.target.value,
+                })
+              }
+              className="w-full resize-none rounded-2xl border border-white/10 bg-black/40 px-4 py-3 text-white outline-none transition-all duration-300 placeholder:text-white/30 focus:border-cyan-400/40 focus:bg-black/60"
             />
 
+            {/* submit */}
             <motion.button
               type="submit"
-              whileHover={prefersReducedMotion ? {} : { scale: 1.03 }}
+              whileHover={
+                prefersReducedMotion
+                  ? {}
+                  : {
+                      scale: 1.03,
+                    }
+              }
               whileTap={{ scale: 0.97 }}
-              className="w-full py-3.5 rounded-full bg-gradient-to-r from-cyan-400 to-pink-400 text-black font-black text-sm"
+              className="w-full rounded-full bg-gradient-to-r from-cyan-400 to-pink-400 py-3.5 text-sm font-black text-black transition-all duration-300"
             >
               Submit Registration
             </motion.button>

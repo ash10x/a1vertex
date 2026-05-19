@@ -11,9 +11,13 @@ import {
 } from "framer-motion";
 import { useRef } from "react";
 import Image from "next/image";
+import { getCldVideoUrl } from "next-cloudinary";
 
 const fadeUp: Variants = {
-  hidden: { opacity: 0, y: 28 },
+  hidden: {
+    opacity: 0,
+    y: 28,
+  },
   visible: (i: number = 0) => ({
     opacity: 1,
     y: 0,
@@ -41,6 +45,15 @@ export default function CoachesSection() {
   const ref = useRef<HTMLElement | null>(null);
   const prefersReducedMotion = useReducedMotion();
 
+  // ───────────────── CLOUDINARY VIDEO ─────────────────
+  const videoUrl = getCldVideoUrl({
+    src: "main3_kipgnb", // replace with your Cloudinary public ID
+    width: 1920,
+    height: 1080,
+    format: "auto",
+    quality: "auto",
+  });
+
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start end", "end start"],
@@ -56,29 +69,33 @@ export default function CoachesSection() {
   return (
     <section
       ref={ref}
-      className="relative py-28 px-6 bg-[#080808] overflow-hidden text-white"
       aria-label="Meet Our Coaches"
+      className="relative overflow-hidden bg-[#080808] px-6 py-28 text-white"
     >
       {/* ───────────────── CINEMATIC BACKGROUND ───────────────── */}
-      <div className="absolute inset-0 z-0">
+      <div className="absolute inset-0 z-0 overflow-hidden">
         <motion.div style={{ y: bgY }} className="absolute inset-0">
           <video
             autoPlay
             muted
             loop
             playsInline
-            preload="auto"
+            preload="metadata"
+            poster="/images/video-poster.jpg"
             className="absolute inset-0 h-full w-full object-cover"
           >
-            <source src="/video/main3.mp4" type="video/mp4" />
+            <source src={videoUrl} type="video/mp4" />
           </video>
         </motion.div>
 
+        {/* overlays */}
         <div className="absolute inset-0 bg-black/70" />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(34,211,238,0.12),transparent_60%)]" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-black/50 to-black" />
       </div>
 
-      <div className="relative z-10 max-w-6xl mx-auto">
+      {/* ───────────────── CONTENT ───────────────── */}
+      <div className="relative z-10 mx-auto max-w-6xl">
         {/* ───────────────── HEADER ───────────────── */}
         <motion.div
           variants={fadeUp}
@@ -86,27 +103,27 @@ export default function CoachesSection() {
           whileInView="visible"
           viewport={{ once: true, amount: 0.4 }}
           custom={0}
-          className="text-center mb-14"
+          className="mb-14 text-center"
         >
-          <p className="text-cyan-400 text-xs tracking-[0.3em] uppercase mb-4">
+          <p className="mb-4 text-xs uppercase tracking-[0.3em] text-cyan-400">
             Coaching System
           </p>
 
-          <h3 className="text-4xl md:text-5xl font-black">
+          <h3 className="text-4xl font-black leading-tight md:text-5xl">
             Built by Experience.
-            <span className="block text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-pink-400 to-yellow-300">
+            <span className="block bg-gradient-to-r from-cyan-400 via-pink-400 to-yellow-300 bg-clip-text text-transparent">
               Driven by Results.
             </span>
           </h3>
 
-          <p className="text-white/60 mt-5 max-w-2xl mx-auto">
+          <p className="mx-auto mt-5 max-w-2xl text-white/60">
             A performance-driven coaching team focused on structured athlete
-            development.
+            development, elite mentorship, and competitive excellence.
           </p>
         </motion.div>
 
         {/* ───────────────── GRID ───────────────── */}
-        <div className="grid md:grid-cols-3 gap-6">
+        <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
           {COACHES.map((coach, i) => (
             <motion.div
               key={coach.name}
@@ -115,35 +132,51 @@ export default function CoachesSection() {
               whileInView="visible"
               viewport={{ once: true, amount: 0.4 }}
               custom={i}
-              className="group relative rounded-2xl overflow-hidden border border-white/10 bg-white/[0.03] backdrop-blur-xl"
+              whileHover={
+                prefersReducedMotion
+                  ? {}
+                  : {
+                      y: -6,
+                    }
+              }
+              className="group relative overflow-hidden rounded-3xl border border-white/10 bg-white/[0.03] backdrop-blur-xl"
             >
+              {/* glow */}
+              <div className="absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100">
+                <div className="absolute inset-0 bg-cyan-400/5" />
+              </div>
+
               {/* IMAGE */}
               <div className="relative h-80 w-full overflow-hidden">
                 <Image
                   src={coach.image}
                   alt={coach.name}
                   fill
-                  className="object-cover group-hover:scale-105 transition-transform duration-700"
+                  sizes="(max-width: 768px) 100vw, 33vw"
+                  priority={i === 0}
+                  className="object-cover transition-transform duration-700 group-hover:scale-105"
                 />
 
-                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-transparent" />
               </div>
 
               {/* CONTENT */}
-              <div className="p-6">
-                <h4 className="text-xl font-black">{coach.name}</h4>
+              <div className="relative z-10 p-6">
+                <h4 className="text-xl font-black tracking-tight">
+                  {coach.name}
+                </h4>
 
-                <p className="text-cyan-400 text-xs uppercase tracking-[0.25em] mt-1">
+                <p className="mt-1 text-xs uppercase tracking-[0.25em] text-cyan-400">
                   {coach.title}
                 </p>
 
-                <p className="text-white/60 text-sm mt-4 leading-relaxed">
+                <p className="mt-4 text-sm leading-relaxed text-white/60">
                   {coach.bio}
                 </p>
               </div>
 
-              {/* subtle glow hover */}
-              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none bg-cyan-400/5" />
+              {/* border glow */}
+              <div className="pointer-events-none absolute inset-0 rounded-3xl border border-cyan-400/0 transition-all duration-500 group-hover:border-cyan-400/20" />
             </motion.div>
           ))}
         </div>
@@ -155,13 +188,19 @@ export default function CoachesSection() {
           whileInView="visible"
           viewport={{ once: true, amount: 0.4 }}
           custom={4}
-          className="flex justify-center mt-14"
+          className="mt-14 flex justify-center"
         >
           <motion.a
             href="/coaches"
-            whileHover={prefersReducedMotion ? {} : { scale: 1.04 }}
+            whileHover={
+              prefersReducedMotion
+                ? {}
+                : {
+                    scale: 1.04,
+                  }
+            }
             whileTap={{ scale: 0.97 }}
-            className="px-8 py-3.5 rounded-full font-black text-black text-sm"
+            className="rounded-full px-8 py-3.5 text-sm font-black text-black transition-all duration-300"
             style={{
               background: "linear-gradient(90deg, #22d3ee, #f472b6)",
             }}
