@@ -10,7 +10,7 @@ const FAQ = [
   },
   {
     q: "Where is your training facility located?",
-    a: "Our main practice location is in Spanish Town, Jamaica.",
+    a: "Our main practice location is in Baoca Raton, Florida.",
   },
   {
     q: "Do you offer beginner training?",
