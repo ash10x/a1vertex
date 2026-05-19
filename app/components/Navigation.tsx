@@ -16,6 +16,7 @@ const NAV_ITEMS = [
   { href: "/gallery", label: "Gallery" },
   { href: "/shop", label: "Shop" },
   { href: "/contact", label: "Contact" },
+  { href: "/join", label: "Join A1 Vertex" },
 ];
 
 export default function Navigation() {
