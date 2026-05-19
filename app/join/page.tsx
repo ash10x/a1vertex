@@ -175,7 +175,9 @@ export default function JoinPage() {
                         Elite Performance Development Program
                       </p>
 
-                      <h3 className="text-3xl font-black mt-2">$550/month</h3>
+                      <h3 className="text-3xl font-black mt-2">
+                        $550<span className="text-xs">/month</span>
+                      </h3>
 
                       <p className="text-white/60 text-sm mt-2">
                         Covers structured coaching, strength development,
