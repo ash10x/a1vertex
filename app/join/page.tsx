@@ -87,7 +87,7 @@ export default function JoinPage() {
                   },
                   {
                     label: "Elite Performance Development Program",
-                    value: "$550/month",
+                    value: "$550",
                     desc: "Per athlete / billed monthly",
                   },
                   {
