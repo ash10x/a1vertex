@@ -19,10 +19,10 @@ const fadeUp: Variants = {
 const PROGRAM_BENEFITS = [
   "Individualized Athlete Development",
   "Olympic-Level Sprint Coaching",
-  "Strength & Conditioning Support",
-  "Recovery & Wellness Systems",
+  "Strength & Conditioning Program From a Specialist For Youths Performance & Development",
+  "Recovery & Wellness Systems From Specialists With Over 10 Years Experience With Youths",
   "Meet Preparation & Support",
-  "Hydration & Healthy Snacks",
+  "Hydration Drinks, Water & Snacks on Practice Days & Meet Days",
   "Athlete Progress Tracking",
   "Competition Uniform Package",
 ];
@@ -86,7 +86,7 @@ export default function JoinPage() {
                     desc: "Initial athlete onboarding & gear package",
                   },
                   {
-                    label: "Monthly Tuition",
+                    label: "Elite Performance Development Program",
                     value: "$550",
                     desc: "Per athlete / billed monthly",
                   },

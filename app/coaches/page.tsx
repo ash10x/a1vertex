@@ -43,15 +43,8 @@ const KAI_FOCUS = [
   "Athlete confidence & discipline",
 ];
 
-const KAI_PERSONAL_BESTS = [
-  { event: "100m", mark: "11.19" },
-  { event: "200m", mark: "22.85" },
-  { event: "60m Indoor", mark: "7.20" },
-  { event: "4x100 Relay", mark: "42.59" },
-];
-
 /* =========================
-   SUPPORT COACHES (UPDATED)
+   SUPPORT COACHES
 ========================= */
 
 const COACHES = [
@@ -136,9 +129,35 @@ export default function CoachesPage() {
         >
           {/* LEFT */}
           <div>
-            <p className="text-cyan-400 text-xs tracking-[0.3em] uppercase font-semibold mb-6">
-              Head Sprint Coach — A1 Vertex Athletics
-            </p>
+            {/* HEADER + QUALIFICATION */}
+            <div className="mb-6">
+              <p className="text-cyan-400 text-xs tracking-[0.3em] uppercase font-semibold">
+                Head Sprint Coach — A1 Vertex Athletics
+              </p>
+
+              <p className="text-white/50 text-xs mt-2 tracking-wide">
+                USATF Level 1 Certified • Three-Time Olympian • NCAA Division I
+                Athlete • Elite Sprint Development Specialist
+              </p>
+
+              {/* CREDENTIAL BADGES */}
+              <div className="flex flex-wrap gap-2 mt-4">
+                {[
+                  "USATF Level 1",
+                  "Olympian",
+                  "NCAA D1 Athlete",
+                  "National Champion",
+                  "Elite Sprint Coach",
+                ].map((tag) => (
+                  <span
+                    key={tag}
+                    className="px-3 py-1 text-[11px] rounded-full border border-white/10 bg-white/[0.04] text-white/70"
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            </div>
 
             <h1 className="text-5xl md:text-7xl font-black leading-[0.95]">
               Coach Kai
@@ -171,19 +190,6 @@ export default function CoachesPage() {
                   <p key={f}>• {f}</p>
                 ))}
               </div>
-            </div>
-
-            {/* PERSONAL BESTS */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mt-12">
-              {KAI_PERSONAL_BESTS.map((p) => (
-                <div
-                  key={p.event}
-                  className="p-4 rounded-2xl border border-white/10 bg-white/[0.03]"
-                >
-                  <p className="text-white/40 text-xs uppercase">{p.event}</p>
-                  <p className="text-2xl font-black mt-2">{p.mark}</p>
-                </div>
-              ))}
             </div>
           </div>
 
