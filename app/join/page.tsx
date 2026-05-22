@@ -38,8 +38,56 @@ const GEAR_ITEMS = [
   "Branded Athlete Gear",
 ];
 
+type Status = 'idle' | 'loading' | 'success' | 'error';
+
 export default function JoinPage() {
   const [activeTab, setActiveTab] = useState<"athlete" | "parent">("athlete");
+
+  const [athleteForm, setAthleteForm] = useState({
+    fullName: '', dateOfBirth: '', school: '', primaryEvents: '',
+    personalBests: '', phone: '', email: '', goals: '',
+  });
+  const [athleteStatus, setAthleteStatus] = useState<Status>('idle');
+
+  const [parentForm, setParentForm] = useState({
+    parentName: '', relationship: '', athleteName: '',
+    emergencyContact: '', email: '', phone: '', notes: '',
+  });
+  const [parentStatus, setParentStatus] = useState<Status>('idle');
+
+  const handleAthleteSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setAthleteStatus('loading');
+    try {
+      const res = await fetch('/api/join/athlete', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(athleteForm),
+      });
+      if (!res.ok) throw new Error('Failed');
+      setAthleteStatus('success');
+      setAthleteForm({ fullName: '', dateOfBirth: '', school: '', primaryEvents: '', personalBests: '', phone: '', email: '', goals: '' });
+    } catch {
+      setAthleteStatus('error');
+    }
+  };
+
+  const handleParentSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setParentStatus('loading');
+    try {
+      const res = await fetch('/api/join/parent', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(parentForm),
+      });
+      if (!res.ok) throw new Error('Failed');
+      setParentStatus('success');
+      setParentForm({ parentName: '', relationship: '', athleteName: '', emergencyContact: '', email: '', phone: '', notes: '' });
+    } catch {
+      setParentStatus('error');
+    }
+  };
 
   return (
     <main className="min-h-screen bg-[#050505] text-white overflow-hidden">
@@ -311,56 +359,89 @@ export default function JoinPage() {
                   </h2>
                 </div>
 
-                <form className="grid md:grid-cols-2 gap-5">
+                {athleteStatus === 'success' && (
+                  <div className="mb-4 rounded-2xl border border-cyan-400/30 bg-cyan-400/10 px-4 py-3 text-sm text-cyan-300">
+                    Application received! We&apos;ll be in touch within 2–3 business days.
+                  </div>
+                )}
+                {athleteStatus === 'error' && (
+                  <div className="mb-4 rounded-2xl border border-pink-400/30 bg-pink-400/10 px-4 py-3 text-sm text-pink-300">
+                    Something went wrong. Please try again.
+                  </div>
+                )}
+
+                <form onSubmit={handleAthleteSubmit} className="grid md:grid-cols-2 gap-5">
                   <input
                     type="text"
+                    required
                     placeholder="Athlete Full Name"
+                    value={athleteForm.fullName}
+                    onChange={(e) => setAthleteForm({ ...athleteForm, fullName: e.target.value })}
                     className="input"
                   />
 
-                  <input type="date" className="input" />
+                  <input
+                    type="date"
+                    value={athleteForm.dateOfBirth}
+                    onChange={(e) => setAthleteForm({ ...athleteForm, dateOfBirth: e.target.value })}
+                    className="input"
+                  />
 
                   <input
                     type="text"
                     placeholder="School Name"
+                    value={athleteForm.school}
+                    onChange={(e) => setAthleteForm({ ...athleteForm, school: e.target.value })}
                     className="input"
                   />
 
                   <input
                     type="text"
                     placeholder="Primary Events"
+                    value={athleteForm.primaryEvents}
+                    onChange={(e) => setAthleteForm({ ...athleteForm, primaryEvents: e.target.value })}
                     className="input"
                   />
 
                   <input
                     type="text"
                     placeholder="Current Personal Bests"
+                    value={athleteForm.personalBests}
+                    onChange={(e) => setAthleteForm({ ...athleteForm, personalBests: e.target.value })}
                     className="input"
                   />
 
                   <input
-                    type="text"
+                    type="tel"
                     placeholder="Athlete Phone Number"
+                    value={athleteForm.phone}
+                    onChange={(e) => setAthleteForm({ ...athleteForm, phone: e.target.value })}
                     className="input"
                   />
 
                   <input
                     type="email"
+                    required
                     placeholder="Athlete Email"
+                    value={athleteForm.email}
+                    onChange={(e) => setAthleteForm({ ...athleteForm, email: e.target.value })}
                     className="input md:col-span-2"
                   />
 
                   <textarea
                     rows={5}
                     placeholder="Tell us about your goals, experience, and why you want to join A1 Vertex Athletics."
+                    value={athleteForm.goals}
+                    onChange={(e) => setAthleteForm({ ...athleteForm, goals: e.target.value })}
                     className="input resize-none md:col-span-2"
                   />
 
                   <button
                     type="submit"
-                    className="mt-3 inline-flex justify-center items-center rounded-full bg-gradient-to-r from-cyan-400 to-pink-400 px-8 py-4 text-black font-black text-sm md:col-span-2"
+                    disabled={athleteStatus === 'loading'}
+                    className="mt-3 inline-flex justify-center items-center rounded-full bg-gradient-to-r from-cyan-400 to-pink-400 px-8 py-4 text-black font-black text-sm md:col-span-2 disabled:opacity-60"
                   >
-                    Submit Athlete Application
+                    {athleteStatus === 'loading' ? 'Submitting...' : 'Submit Athlete Application'}
                   </button>
                 </form>
               </motion.div>
@@ -383,54 +464,82 @@ export default function JoinPage() {
                   <h2 className="text-4xl font-black mt-4">Join as a Parent</h2>
                 </div>
 
-                <form className="grid md:grid-cols-2 gap-5">
+                {parentStatus === 'success' && (
+                  <div className="mb-4 rounded-2xl border border-cyan-400/30 bg-cyan-400/10 px-4 py-3 text-sm text-cyan-300">
+                    Registration received! We&apos;ll be in touch shortly.
+                  </div>
+                )}
+                {parentStatus === 'error' && (
+                  <div className="mb-4 rounded-2xl border border-pink-400/30 bg-pink-400/10 px-4 py-3 text-sm text-pink-300">
+                    Something went wrong. Please try again.
+                  </div>
+                )}
+
+                <form onSubmit={handleParentSubmit} className="grid md:grid-cols-2 gap-5">
                   <input
                     type="text"
+                    required
                     placeholder="Parent / Guardian Full Name"
+                    value={parentForm.parentName}
+                    onChange={(e) => setParentForm({ ...parentForm, parentName: e.target.value })}
                     className="input"
                   />
 
                   <input
                     type="text"
                     placeholder="Relationship to Athlete"
+                    value={parentForm.relationship}
+                    onChange={(e) => setParentForm({ ...parentForm, relationship: e.target.value })}
                     className="input"
                   />
 
                   <input
                     type="text"
                     placeholder="Athlete Name"
+                    value={parentForm.athleteName}
+                    onChange={(e) => setParentForm({ ...parentForm, athleteName: e.target.value })}
                     className="input"
                   />
 
                   <input
-                    type="text"
+                    type="tel"
                     placeholder="Emergency Contact Number"
+                    value={parentForm.emergencyContact}
+                    onChange={(e) => setParentForm({ ...parentForm, emergencyContact: e.target.value })}
                     className="input"
                   />
 
                   <input
                     type="email"
+                    required
                     placeholder="Parent Email Address"
+                    value={parentForm.email}
+                    onChange={(e) => setParentForm({ ...parentForm, email: e.target.value })}
                     className="input"
                   />
 
                   <input
                     type="tel"
                     placeholder="Parent Phone Number"
+                    value={parentForm.phone}
+                    onChange={(e) => setParentForm({ ...parentForm, phone: e.target.value })}
                     className="input"
                   />
 
                   <textarea
                     rows={5}
                     placeholder="Additional information, athlete needs, questions, or concerns."
+                    value={parentForm.notes}
+                    onChange={(e) => setParentForm({ ...parentForm, notes: e.target.value })}
                     className="input resize-none md:col-span-2"
                   />
 
                   <button
                     type="submit"
-                    className="mt-3 inline-flex justify-center items-center rounded-full bg-gradient-to-r from-pink-400 to-cyan-400 px-8 py-4 text-black font-black text-sm md:col-span-2"
+                    disabled={parentStatus === 'loading'}
+                    className="mt-3 inline-flex justify-center items-center rounded-full bg-gradient-to-r from-pink-400 to-cyan-400 px-8 py-4 text-black font-black text-sm md:col-span-2 disabled:opacity-60"
                   >
-                    Submit Parent Registration
+                    {parentStatus === 'loading' ? 'Submitting...' : 'Submit Parent Registration'}
                   </button>
                 </form>
               </motion.div>

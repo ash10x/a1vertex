@@ -7,10 +7,10 @@ import {
   useScroll,
   useTransform,
   useSpring,
-  useReducedMotion,
 } from "framer-motion";
-import { useState, useRef } from "react";
+import { useRef } from "react";
 import { getCldVideoUrl } from "next-cloudinary";
+import RegistrationForm from "@/app/components/RegistrationForm";
 
 const fadeUp: Variants = {
   hidden: {
@@ -29,17 +29,7 @@ const fadeUp: Variants = {
 };
 
 export default function RegistrationSection() {
-  const [form, setForm] = useState({
-    name: "",
-    age: "",
-    event: "",
-    email: "",
-    phone: "",
-    experience: "",
-  });
-
   const ref = useRef<HTMLElement | null>(null);
-  const prefersReducedMotion = useReducedMotion();
 
   // ───────────────── CLOUDINARY VIDEO ─────────────────
   const videoUrl = getCldVideoUrl({
@@ -61,13 +51,6 @@ export default function RegistrationSection() {
   });
 
   const bgY = useTransform(smooth, [0, 1], ["0%", "10%"]);
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    // Replace with API integration later
-    console.log("Registration submitted:", form);
-  };
 
   return (
     <section
@@ -110,13 +93,7 @@ export default function RegistrationSection() {
         >
           {/* intro */}
           <motion.div
-            whileHover={
-              prefersReducedMotion
-                ? {}
-                : {
-                    y: -4,
-                  }
-            }
+            whileHover={{ y: -4 }}
             className="rounded-3xl border border-white/10 bg-white/[0.03] p-8 backdrop-blur-xl transition-all duration-500"
           >
             <p className="mb-4 text-xs uppercase tracking-[0.3em] text-cyan-400">
@@ -135,13 +112,7 @@ export default function RegistrationSection() {
 
           {/* process */}
           <motion.div
-            whileHover={
-              prefersReducedMotion
-                ? {}
-                : {
-                    y: -4,
-                  }
-            }
+            whileHover={{ y: -4 }}
             className="rounded-3xl border border-white/10 bg-white/[0.03] p-8 backdrop-blur-xl transition-all duration-500"
           >
             <p className="mb-4 text-xs uppercase tracking-[0.3em] text-yellow-300">
@@ -169,13 +140,7 @@ export default function RegistrationSection() {
 
           {/* pricing */}
           <motion.div
-            whileHover={
-              prefersReducedMotion
-                ? {}
-                : {
-                    y: -4,
-                  }
-            }
+            whileHover={{ y: -4 }}
             className="rounded-3xl border border-cyan-400/20 bg-gradient-to-br from-cyan-400/[0.04] to-pink-400/[0.04] p-8 backdrop-blur-xl transition-all duration-500"
           >
             <p className="mb-4 text-xs uppercase tracking-[0.3em] text-pink-400">
@@ -226,113 +191,7 @@ export default function RegistrationSection() {
             onboarding process.
           </p>
 
-          <form onSubmit={handleSubmit} className="space-y-4">
-            {/* name */}
-            <input
-              type="text"
-              placeholder="Full Name"
-              value={form.name}
-              required
-              onChange={(e) =>
-                setForm({
-                  ...form,
-                  name: e.target.value,
-                })
-              }
-              className="w-full rounded-2xl border border-white/10 bg-black/40 px-4 py-3 text-white outline-none transition-all duration-300 placeholder:text-white/30 focus:border-cyan-400/40 focus:bg-black/60"
-            />
-
-            {/* age + event */}
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-              <input
-                type="number"
-                placeholder="Age"
-                value={form.age}
-                required
-                onChange={(e) =>
-                  setForm({
-                    ...form,
-                    age: e.target.value,
-                  })
-                }
-                className="rounded-2xl border border-white/10 bg-black/40 px-4 py-3 text-white outline-none transition-all duration-300 placeholder:text-white/30 focus:border-cyan-400/40 focus:bg-black/60"
-              />
-
-              <input
-                type="text"
-                placeholder="Primary Event"
-                value={form.event}
-                required
-                onChange={(e) =>
-                  setForm({
-                    ...form,
-                    event: e.target.value,
-                  })
-                }
-                className="rounded-2xl border border-white/10 bg-black/40 px-4 py-3 text-white outline-none transition-all duration-300 placeholder:text-white/30 focus:border-cyan-400/40 focus:bg-black/60"
-              />
-            </div>
-
-            {/* email */}
-            <input
-              type="email"
-              placeholder="Email Address"
-              value={form.email}
-              required
-              onChange={(e) =>
-                setForm({
-                  ...form,
-                  email: e.target.value,
-                })
-              }
-              className="w-full rounded-2xl border border-white/10 bg-black/40 px-4 py-3 text-white outline-none transition-all duration-300 placeholder:text-white/30 focus:border-cyan-400/40 focus:bg-black/60"
-            />
-
-            {/* phone */}
-            <input
-              type="tel"
-              placeholder="Phone Number"
-              value={form.phone}
-              required
-              onChange={(e) =>
-                setForm({
-                  ...form,
-                  phone: e.target.value,
-                })
-              }
-              className="w-full rounded-2xl border border-white/10 bg-black/40 px-4 py-3 text-white outline-none transition-all duration-300 placeholder:text-white/30 focus:border-cyan-400/40 focus:bg-black/60"
-            />
-
-            {/* experience */}
-            <textarea
-              placeholder="Athletic Experience"
-              value={form.experience}
-              rows={5}
-              onChange={(e) =>
-                setForm({
-                  ...form,
-                  experience: e.target.value,
-                })
-              }
-              className="w-full resize-none rounded-2xl border border-white/10 bg-black/40 px-4 py-3 text-white outline-none transition-all duration-300 placeholder:text-white/30 focus:border-cyan-400/40 focus:bg-black/60"
-            />
-
-            {/* submit */}
-            <motion.button
-              type="submit"
-              whileHover={
-                prefersReducedMotion
-                  ? {}
-                  : {
-                      scale: 1.03,
-                    }
-              }
-              whileTap={{ scale: 0.97 }}
-              className="w-full rounded-full bg-gradient-to-r from-cyan-400 to-pink-400 py-3.5 text-sm font-black text-black transition-all duration-300"
-            >
-              Submit Registration
-            </motion.button>
-          </form>
+          <RegistrationForm />
         </motion.div>
       </div>
     </section>

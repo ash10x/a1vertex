@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, cubicBezier, Variants } from "framer-motion";
-import { useState } from "react";
+import RegistrationForm from "@/app/components/RegistrationForm";
 
 const fadeUp: Variants = {
   hidden: { opacity: 0, y: 26 },
@@ -91,15 +91,6 @@ const PRICING = [
 ];
 
 export default function RegistrationSection() {
-  const [form, setForm] = useState({
-    name: "",
-    age: "",
-    event: "",
-    email: "",
-    phone: "",
-    experience: "",
-  });
-
   return (
     <section className="relative py-28 px-6 bg-[#080808] overflow-hidden">
       {/* Background Glow */}
@@ -239,75 +230,7 @@ export default function RegistrationSection() {
               Start Your Evaluation
             </h3>
 
-            <form className="space-y-4">
-              <input
-                type="text"
-                placeholder="Full Name"
-                value={form.name}
-                onChange={(e) => setForm({ ...form, name: e.target.value })}
-                className="w-full px-4 py-3 rounded-2xl bg-black/40 border border-white/10 text-white placeholder:text-white/30 outline-none focus:border-cyan-400/40"
-              />
-
-              <div className="grid grid-cols-2 gap-4">
-                <input
-                  type="number"
-                  placeholder="Age"
-                  value={form.age}
-                  onChange={(e) => setForm({ ...form, age: e.target.value })}
-                  className="px-4 py-3 rounded-2xl bg-black/40 border border-white/10 text-white placeholder:text-white/30 outline-none focus:border-cyan-400/40"
-                />
-
-                <input
-                  type="text"
-                  placeholder="Primary Event"
-                  value={form.event}
-                  onChange={(e) => setForm({ ...form, event: e.target.value })}
-                  className="px-4 py-3 rounded-2xl bg-black/40 border border-white/10 text-white placeholder:text-white/30 outline-none focus:border-cyan-400/40"
-                />
-              </div>
-
-              <input
-                type="email"
-                placeholder="Email Address"
-                value={form.email}
-                onChange={(e) => setForm({ ...form, email: e.target.value })}
-                className="w-full px-4 py-3 rounded-2xl bg-black/40 border border-white/10 text-white placeholder:text-white/30 outline-none focus:border-cyan-400/40"
-              />
-
-              <input
-                type="tel"
-                placeholder="Phone Number"
-                value={form.phone}
-                onChange={(e) => setForm({ ...form, phone: e.target.value })}
-                className="w-full px-4 py-3 rounded-2xl bg-black/40 border border-white/10 text-white placeholder:text-white/30 outline-none focus:border-cyan-400/40"
-              />
-
-              <textarea
-                rows={5}
-                placeholder="Athletic Background / Experience"
-                value={form.experience}
-                onChange={(e) =>
-                  setForm({
-                    ...form,
-                    experience: e.target.value,
-                  })
-                }
-                className="w-full px-4 py-3 rounded-2xl bg-black/40 border border-white/10 text-white placeholder:text-white/30 outline-none focus:border-cyan-400/40"
-              />
-
-              <motion.button
-                type="submit"
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                className="w-full py-4 rounded-full bg-gradient-to-r from-cyan-400 to-pink-400 text-black font-black text-sm shadow-[0_0_30px_rgba(34,211,238,0.25)]"
-              >
-                Submit Athlete Application
-              </motion.button>
-
-              <p className="text-center text-xs text-white/40">
-                Limited intake • 12 athletes only
-              </p>
-            </form>
+            <RegistrationForm />
           </motion.div>
         </div>
 

@@ -22,22 +22,30 @@ const FAQ = [
   },
 ];
 
+type Status = 'idle' | 'loading' | 'success' | 'error';
+
 export default function ContactPage() {
-  const [loading, setLoading] = useState<boolean>(false);
+  const [form, setForm] = useState({ name: '', email: '', subject: '', message: '' });
+  const [status, setStatus] = useState<Status>('idle');
   const [openFAQ, setOpenFAQ] = useState<number | null>(null);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setLoading(true);
+    setStatus('loading');
 
     try {
-      await new Promise((res) => setTimeout(res, 1000));
-      alert("Message sent successfully.");
-    } catch (err) {
-      console.error(err);
-      alert("Something went wrong. Please try again.");
-    } finally {
-      setLoading(false);
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(form),
+      });
+
+      if (!res.ok) throw new Error('Failed');
+
+      setStatus('success');
+      setForm({ name: '', email: '', subject: '', message: '' });
+    } catch {
+      setStatus('error');
     }
   };
 
@@ -85,40 +93,59 @@ export default function ContactPage() {
           >
             <h2 className="text-xl font-black mb-6">Send a Message</h2>
 
+            {status === 'success' && (
+              <div className="mb-4 rounded-xl border border-cyan-400/30 bg-cyan-400/10 px-4 py-3 text-sm text-cyan-300">
+                Message sent! We&apos;ll get back to you within 24 hours.
+              </div>
+            )}
+            {status === 'error' && (
+              <div className="mb-4 rounded-xl border border-pink-400/30 bg-pink-400/10 px-4 py-3 text-sm text-pink-300">
+                Something went wrong. Please try again.
+              </div>
+            )}
+
             <form onSubmit={handleSubmit} className="space-y-4">
               <input
                 type="text"
                 required
                 placeholder="Full Name"
-                className="w-full px-4 py-3 rounded-xl bg-black/40 border border-white/10 focus:border-cyan-400/40 outline-none"
+                value={form.name}
+                onChange={(e) => setForm({ ...form, name: e.target.value })}
+                className="w-full px-4 py-3 rounded-xl bg-black/40 border border-white/10 focus:border-cyan-400/40 outline-none text-white placeholder:text-white/30"
               />
 
               <input
                 type="email"
                 required
                 placeholder="Email Address"
-                className="w-full px-4 py-3 rounded-xl bg-black/40 border border-white/10 focus:border-cyan-400/40 outline-none"
+                value={form.email}
+                onChange={(e) => setForm({ ...form, email: e.target.value })}
+                className="w-full px-4 py-3 rounded-xl bg-black/40 border border-white/10 focus:border-cyan-400/40 outline-none text-white placeholder:text-white/30"
               />
 
               <input
                 type="text"
                 placeholder="Subject"
-                className="w-full px-4 py-3 rounded-xl bg-black/40 border border-white/10 focus:border-cyan-400/40 outline-none"
+                value={form.subject}
+                onChange={(e) => setForm({ ...form, subject: e.target.value })}
+                className="w-full px-4 py-3 rounded-xl bg-black/40 border border-white/10 focus:border-cyan-400/40 outline-none text-white placeholder:text-white/30"
               />
 
               <textarea
                 rows={5}
                 required
                 placeholder="Message"
-                className="w-full px-4 py-3 rounded-xl bg-black/40 border border-white/10 focus:border-cyan-400/40 outline-none resize-none"
+                value={form.message}
+                onChange={(e) => setForm({ ...form, message: e.target.value })}
+                className="w-full px-4 py-3 rounded-xl bg-black/40 border border-white/10 focus:border-cyan-400/40 outline-none resize-none text-white placeholder:text-white/30"
               />
 
               <button
                 type="submit"
-                disabled={loading}
+                disabled={status === 'loading'}
                 className="w-full py-3 rounded-full bg-gradient-to-r from-cyan-400 to-pink-400 text-black font-black text-sm hover:scale-[1.02] transition disabled:opacity-60"
               >
-                {loading ? "Sending..." : "Send Message"}
+                {status === 'loading' ? 'Sending...' : 'Send Message'}
               </button>
             </form>
           </motion.div>
