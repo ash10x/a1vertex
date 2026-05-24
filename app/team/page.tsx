@@ -1,7 +1,8 @@
+"use client";
+
 import { motion } from "framer-motion";
 import Image from "next/image";
-import { db } from "@/db";
-import { athletes as athletesTable } from "@/db/schema";
+import { useEffect, useState } from "react";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 26 },
@@ -16,13 +17,7 @@ const fadeUp = {
   }),
 };
 
-function AthleteCard({
-  athlete,
-  i,
-}: {
-  athlete: any;
-  i: number;
-}) {
+function AthleteCard({ athlete, i }: { athlete: any; i: number }) {
   const events = (athlete.events as string[]) || [];
   const pbs = (athlete.pbs as Record<string, string>) || {};
   const highlights = (athlete.highlights as string[]) || [];
@@ -112,8 +107,23 @@ function AthleteCard({
   );
 }
 
-export default async function TeamPage() {
-  const allAthletes = await db.select().from(athletesTable);
+export default function TeamPage() {
+  const [allAthletes, setAllAthletes] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch("/api/athletes")
+      .then((res) => res.json())
+      .then((data) => {
+        setAllAthletes(data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.error("Failed to fetch athletes:", err);
+        setLoading(false);
+      });
+  }, []);
+
   const spotlightAthlete = allAthletes.find((a) => a.isSpotlight === 1);
   const pbs = (spotlightAthlete?.pbs as Record<string, string>) || {};
   const events = (spotlightAthlete?.events as string[]) || [];

@@ -1,8 +1,9 @@
+"use client";
+
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { cubicBezier } from "framer-motion";
-import { db } from "@/db";
-import { coaches as coachesTable } from "@/db/schema";
+import { useEffect, useState } from "react";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 28 },
@@ -16,14 +17,38 @@ const fadeUp = {
   },
 };
 
-export default async function CoachesPage() {
-  const allCoaches = await db.select().from(coachesTable);
+export default function CoachesPage() {
+  const [allCoaches, setAllCoaches] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch("/api/coaches")
+      .then((res) => res.json())
+      .then((data) => {
+        setAllCoaches(data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.error("Failed to fetch coaches:", err);
+        setLoading(false);
+      });
+  }, []);
 
   const headCoach = allCoaches.find((c) => c.isHeadCoach === 1);
   const supportCoaches = allCoaches.filter((c) => c.isHeadCoach === 0);
 
   const highlights = (headCoach?.highlights as string[]) || [];
   const focus = (headCoach?.focus as string[]) || [];
+
+  if (loading) {
+    return (
+      <main className="min-h-screen bg-[#050505] text-white overflow-hidden flex items-center justify-center">
+        <div className="text-center">
+          <p className="text-cyan-400 text-lg">Loading coaches...</p>
+        </div>
+      </main>
+    );
+  }
 
   return (
     <main className="min-h-screen bg-[#050505] text-white overflow-hidden">
@@ -118,7 +143,9 @@ export default async function CoachesPage() {
               viewport={{ once: true }}
               className="text-center"
             >
-              <h2 className="text-5xl font-black">Complete Performance Staff</h2>
+              <h2 className="text-5xl font-black">
+                Complete Performance Staff
+              </h2>
               <p className="text-white/60 mt-4 max-w-2xl mx-auto">
                 Strength. Speed. Mindset. Development systems built for elite
                 athlete progression.
