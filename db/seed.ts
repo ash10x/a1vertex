@@ -112,6 +112,7 @@ const coachesData = [
 const athletesData = [
   {
     name: "Aubrianna Grant",
+    title: "Rising Sprint Athlete",
     image: "/images/athletes/aubriannagrant.jpeg",
     dob: "January 8, 2014",
     age: 12,
@@ -140,6 +141,7 @@ const athletesData = [
   },
   {
     name: "Athlete Coming Soon",
+    title: "Sprint Sprinter",
     image: "/images/athletes/placeholder.jpeg",
     dob: "—",
     age: null,
@@ -156,6 +158,7 @@ const athletesData = [
   },
   {
     name: "Athlete Coming Soon",
+    title: "Middle Distance Prospect",
     image: "/images/athletes/placeholder.jpeg",
     dob: "—",
     age: null,
@@ -177,8 +180,8 @@ export async function seed() {
     console.log("🌱 Starting seed...");
 
     // Clear existing data
-    // await db.delete(coaches);
-    // await db.delete(athletes);
+    await db.delete(coaches);
+    await db.delete(athletes);
 
     // Insert coaches
     console.log("📚 Seeding coaches...");

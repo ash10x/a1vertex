@@ -170,7 +170,7 @@ export default function CoachesSection() {
                 </h4>
 
                 <p className="mt-1 text-xs uppercase tracking-[0.25em] text-cyan-400">
-                  {coach.title}
+                  {coach.role}
                 </p>
 
                 <p className="mt-4 text-sm leading-relaxed text-white/60">

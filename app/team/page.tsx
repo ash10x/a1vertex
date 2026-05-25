@@ -49,6 +49,11 @@ function AthleteCard({ athlete, i }: { athlete: any; i: number }) {
       <div className="p-6 flex flex-col gap-4 flex-1">
         <div>
           <h2 className="text-xl font-black">{athlete.name}</h2>
+          {athlete.title && (
+            <p className="mt-1 text-xs uppercase tracking-[0.25em] text-cyan-400">
+              {athlete.title}
+            </p>
+          )}
           <div className="flex flex-wrap gap-2 mt-2">
             {events.map((e) => (
               <span
@@ -207,6 +212,11 @@ export default function TeamPage() {
                   <h3 className="text-3xl md:text-4xl font-black">
                     {spotlightAthlete.name}
                   </h3>
+                  {spotlightAthlete.title && (
+                    <p className="mt-1 text-[11px] text-white/40 uppercase tracking-widest font-semibold">
+                      {spotlightAthlete.title}
+                    </p>
+                  )}
                   <div className="flex flex-wrap gap-2 mt-3">
                     {events.map((e) => (
                       <span

@@ -91,6 +91,7 @@ export const coaches = pgTable("coaches", {
 export const athletes = pgTable("athletes", {
   id: serial("id").primaryKey(),
   name: varchar("name", { length: 255 }).notNull(),
+  title: varchar("title", { length: 255 }),
   image: varchar("image", { length: 255 }).notNull(),
   dob: varchar("dob", { length: 50 }),
   age: integer("age"),
