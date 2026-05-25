@@ -9,7 +9,7 @@ import {
   useSpring,
   useReducedMotion,
 } from "framer-motion";
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 import Image from "next/image";
 import { getCldVideoUrl } from "next-cloudinary";
 
@@ -29,21 +29,24 @@ const fadeUp: Variants = {
   }),
 };
 
-const COACHES = [
-  {
-    name: "Coach Kai Selvon",
-    title: "Head Sprint Coach — A1 Vertex Athletics",
-    image: "/images/coaches/coachkai.jpeg",
-    bio: `International-level sprint coach and Three-Time Olympian
-    representing Trinidad & Tobago, bringing elite sprint systems,
-    discipline-based development, and world-class athlete experience
-    to A1 Vertex Athletics.`,
-  },
-];
-
 export default function CoachesSection() {
   const ref = useRef<HTMLElement | null>(null);
   const prefersReducedMotion = useReducedMotion();
+  const [coaches, setCoaches] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch("/api/coaches")
+      .then((res) => res.json())
+      .then((data) => {
+        setCoaches(data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.error("Failed to fetch coaches:", err);
+        setLoading(false);
+      });
+  }, []);
 
   // ───────────────── CLOUDINARY VIDEO ─────────────────
   const videoUrl = getCldVideoUrl({
@@ -124,9 +127,9 @@ export default function CoachesSection() {
 
         {/* ───────────────── GRID ───────────────── */}
         <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-          {COACHES.map((coach, i) => (
+          {coaches.map((coach, i) => (
             <motion.div
-              key={coach.name}
+              key={coach.id}
               variants={fadeUp}
               initial="hidden"
               whileInView="visible"
