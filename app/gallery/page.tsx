@@ -59,6 +59,13 @@ const GALLERY: GalleryItem[] = [
     media: "/images/gallery/fsg22026.jpeg",
   },
   {
+    title: "Taking the Lead at BOTB Championship",
+    description: "Full highlight reel showcasing A1 Vertex athletes in action.",
+    type: "video",
+    media:
+      "https://res.cloudinary.com/dzwn2lwdz/video/upload/v1779802387/sideline_kmxpoz.mp4",
+  },
+  {
     title: "FSG Athlethics BOTB Memorial Weekend Championship",
     description: "Full highlight reel showcasing A1 Vertex athletes in action.",
     type: "video",
