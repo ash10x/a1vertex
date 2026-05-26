@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@neondatabase/serverless": "^1.1.0",
+    "cloudinary": "^2.10.0",
     "drizzle-orm": "^0.45.2",
     "framer-motion": "^12.38.0",
     "git-filter-repo": "^0.0.30",

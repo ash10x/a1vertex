@@ -45,10 +45,39 @@ type GalleryItem = {
 
 const GALLERY: GalleryItem[] = [
   {
-    title: "Practice Culture",
-    description: "Daily repetition and structured development on the track.",
+    title: "FSG Winning Streak",
+    description:
+      "Coming out on top at the prestigious BOTB Memorial Weekend Championship.",
     type: "image",
-    media: "/images/gallery/training-1.jpeg",
+    media: "/images/gallery/fsg12026.jpeg",
+  },
+  {
+    title: "A1 Vertex Best",
+    description:
+      "Crossing the finish line with power and precision at the BOTB Championship.",
+    type: "image",
+    media: "/images/gallery/fsg22026.jpeg",
+  },
+  {
+    title: "FSG Athlethics BOTB Memorial Weekend Championship",
+    description: "Full highlight reel showcasing A1 Vertex athletes in action.",
+    type: "video",
+    media:
+      "https://res.cloudinary.com/dzwn2lwdz/video/upload/v1779800308/WhatsApp_Video_2026-05-25_at_1.28.17_PM_jcafh0.mp4",
+  },
+  {
+    title: "Speed Endurance",
+    description: "Sustaining top-end velocity across the full race distance.",
+    type: "video",
+    media:
+      "https://res.cloudinary.com/dzwn2lwdz/video/upload/v1779801616/meet-1_hng70o.mp4",
+  },
+  {
+    title: "Trackside Coaching",
+    description: "Full highlight reel showcasing A1 Vertex athletes in action.",
+    type: "video",
+    media:
+      "https://res.cloudinary.com/dzwn2lwdz/video/upload/v1779801382/meet-2_qsn8db.mp4",
   },
   {
     title: "Track Sessions",
@@ -105,12 +134,6 @@ const GALLERY: GalleryItem[] = [
     media: "/images/gallery/training-11.jpeg",
   },
   {
-    title: "Recovery Protocol",
-    description: "Active recovery techniques between training blocks.",
-    type: "image",
-    media: "/images/gallery/training-12.jpeg",
-  },
-  {
     title: "Warm-Up Routine",
     description: "Pre-session activation and mobility work.",
     type: "image",
@@ -127,37 +150,6 @@ const GALLERY: GalleryItem[] = [
     description: "Season-over-season development tracked and documented.",
     type: "image",
     media: "/images/gallery/training-15.jpeg",
-  },
-  {
-    title: "Elite Mindset",
-    description: "Mental conditioning and competitive psychology.",
-    type: "image",
-    media: "/images/gallery/training-16.jpeg",
-  },
-  {
-    title: "Finish Line",
-    description: "Crossing the line — the culmination of months of work.",
-    type: "image",
-    media: "/images/gallery/training-17.jpeg",
-  },
-  {
-    title: "Trackside Coaching",
-    description: "Real-time feedback and technical refinement from coaches.",
-    type: "image",
-    media: "/images/gallery/training-18.jpeg",
-  },
-  {
-    title: "Cinematic Reel",
-    description: "Full highlight reel showcasing A1 Vertex athletes in action.",
-    type: "video",
-    // Reference video from your public/video folder
-    media: "images/gallery/meet-1.mp4",
-  },
-  {
-    title: "Highlight Breakdown",
-    description: "Detailed race analysis and performance breakdown.",
-    type: "video",
-    media: "images/gallery/meet-2.mp4",
   },
 ];
 
